@@ -29,7 +29,9 @@ export const getUsers = async (page: number = 1): Promise<UserInterface> => {
   }
 };
 
-export const getUser = async (id: string): Promise<UserWithAddressInterface> => {
+export const getUser = async (
+  id: string
+): Promise<UserWithAddressInterface> => {
   try {
     const config = useRuntimeConfig();
     const access_token = useCookie("access_token");
@@ -52,7 +54,7 @@ export const getUser = async (id: string): Promise<UserWithAddressInterface> => 
   }
 };
 
-export const addUser = async (data: UserInterface): Promise<UserInterface> => {
+export const addUser = async (data: UserInterface): Promise<any> => {
   try {
     const config = useRuntimeConfig();
     // const access_token = useCookie("access_token");
@@ -75,7 +77,7 @@ export const addUser = async (data: UserInterface): Promise<UserInterface> => {
       }
     );
 
-    return response as UserInterface;
+    return response;
   } catch (err) {
     console.error("Erreur lors de la requête.", err);
     throw err;
@@ -116,16 +118,13 @@ export const deleteUser = async (id: number): Promise<UserInterface> => {
     const config = useRuntimeConfig();
     const access_token = useCookie("access_token");
 
-    const response = await $fetch<any>(
-      `${config.public.apiUrl}/users/${id}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${access_token.value}`,
-        },
-      }
-    );
+    const response = await $fetch<any>(`${config.public.apiUrl}/users/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${access_token.value}`,
+      },
+    });
 
     return response.data as UserInterface;
   } catch (err) {
