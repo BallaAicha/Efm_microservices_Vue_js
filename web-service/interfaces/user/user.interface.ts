@@ -1,7 +1,8 @@
 // User
 export interface UserInterface {
   id: string; // UUID
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phoneNumber: string;
   password?: string;

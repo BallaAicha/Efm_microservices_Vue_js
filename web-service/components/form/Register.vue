@@ -5,8 +5,15 @@
       <div class="d-flex flex-column ga-3">
         <!-- Informations utilisateur -->
         <v-text-field
-          v-model="user.name"
-          label="Nom complet"
+          v-model="user.firstName"
+          label="Nom"
+          prepend-icon="mdi-account"
+          variant="outlined"
+          :rules="nameRules"
+        ></v-text-field>
+        <v-text-field
+          v-model="user.lastName"
+          label="Prénom"
           prepend-icon="mdi-account"
           variant="outlined"
           :rules="nameRules"

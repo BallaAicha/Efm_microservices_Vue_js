@@ -58,7 +58,7 @@ export const addUser = async (data: UserInterface): Promise<UserInterface> => {
     const access_token = useCookie("access_token");
 
     const response = await $fetch<UserInterface>(
-      `${config.public.apiUrl}/users`,
+      `${config.public.apiUrl}/auth/users`,
       {
         method: "POST",
         headers: {
