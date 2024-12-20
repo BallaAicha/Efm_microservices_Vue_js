@@ -106,7 +106,7 @@ const error = ref<string | null>(null);
 const register = async () => {
   try {
     const response = await addUser(user.value);
-    if (response.status === 201) {
+    if (response) {
       await authenticateUser(userPayload.value);
       console.log("Utilisateur enregistré avec succès");
       error.value = null;
