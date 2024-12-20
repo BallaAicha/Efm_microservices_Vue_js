@@ -12,6 +12,6 @@ export interface UserInterface {
 }
 
 export interface UserPayloadInterface {
-  email: string;
+  username: string;
   password: string;
 }

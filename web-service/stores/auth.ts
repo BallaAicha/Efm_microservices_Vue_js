@@ -21,7 +21,7 @@ export const useAuthStore = defineStore("authStore", {
     async authenticateUser(user: UserPayloadInterface) {
       const config = useRuntimeConfig();
 
-      if (!user.email || !user.password) {
+      if (!user.username || !user.password) {
         this.error = "L'email et le mot de passe sont requis.";
         return;
       }
@@ -36,7 +36,7 @@ export const useAuthStore = defineStore("authStore", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: {
-              username: user.email,
+              username: user.username,
               password: user.password,
             },
           }
