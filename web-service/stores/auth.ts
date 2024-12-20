@@ -22,7 +22,7 @@ export const useAuthStore = defineStore("authStore", {
       const config = useRuntimeConfig();
 
       if (!user.username || !user.password) {
-        this.error = "L'email et le mot de passe sont requis.";
+        this.error = "L'utilisateur et le mot de passe sont requis.";
         return;
       }
 
@@ -79,29 +79,37 @@ export const useAuthStore = defineStore("authStore", {
         return;
       }
 
-      try {
-        const res: any = await $fetch(`${config.public.apiUrl}/auth/logout`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token.value}`,
-          },
-        });
+      // Réinitialisation de l'état utilisateur
+      this.authenticated = false;
+      this.user = null;
+      useCookie("access_token").value = null; // Effacer le cookie
 
-        if (res && res.message) {
-          console.log(res.message); // Affiche "Successfully logged out" ou autre
-        }
+      // Redirection vers la page de connexion
+      navigateTo("/login");
 
-        // Réinitialisation de l'état utilisateur
-        this.authenticated = false;
-        this.user = null;
-        useCookie("access_token").value = null; // Effacer le cookie
+      // try {
+      //   const res: any = await $fetch(`${config.public.apiUrl}/auth/logout`, {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: `Bearer ${token.value}`,
+      //     },
+      //   });
 
-        // Redirection vers la page de connexion
-        navigateTo("/login");
-      } catch (error) {
-        console.error("Erreur lors de la déconnexion :", error);
-      }
+      //   if (res && res.message) {
+      //     console.log(res.message); // Affiche "Successfully logged out" ou autre
+      //   }
+
+      //   // Réinitialisation de l'état utilisateur
+      //   this.authenticated = false;
+      //   this.user = null;
+      //   useCookie("access_token").value = null; // Effacer le cookie
+
+      //   // Redirection vers la page de connexion
+      //   navigateTo("/login");
+      // } catch (error) {
+      //   console.error("Erreur lors de la déconnexion :", error);
+      // }
     },
 
     // INITIALISATION DU STORE ET VERIFICATION DU TOKEN
