@@ -1,5 +1,8 @@
 import { mapTokenToUser } from "#build/imports";
-import type { UserInterface, UserPayloadInterface } from "~/interfaces/user/user.interface";
+import type {
+  UserInterface,
+  UserPayloadInterface,
+} from "~/interfaces/user/user.interface";
 
 interface AccessTokenInterface {
   access_token: string;
@@ -33,7 +36,7 @@ export const useAuthStore = defineStore("authStore", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: {
-              email: user.email,
+              username: user.email,
               password: user.password,
             },
           }
@@ -106,38 +109,51 @@ export const useAuthStore = defineStore("authStore", {
       const access_token = useCookie("access_token").value;
 
       if (access_token) {
-        try {
-          const config = useRuntimeConfig();
-          const response: any = await $fetch(
-            `${config.public.apiUrl}/auth/verify-token`,
-            {
-              method: "POST",
-              headers: {
-                Authorization: `Bearer ${access_token}`,
-              },
-            }
-          );
-
-          if (response.valid) {
-            this.authenticated = true;
-            this.user = mapTokenToUser(access_token);
-            // Optionnel : Vous pouvez ici charger les données utilisateur si nécessaire
-            // Example: this.user = await fetchUserData(access_token);
-            console.log("Token validé et utilisateur authentifié.");
-          } else {
-            console.warn("Token invalide, redirection vers login.");
-            this.authenticated = false;
-            useCookie("access_token").value = null; // Effacer le cookie
-          }
-        } catch (error) {
-          console.error("Erreur lors de la vérification du token :", error);
-          this.authenticated = false;
-          useCookie("access_token").value = null; // Effacer le cookie
-        }
+        this.authenticated = true;
+        this.user = mapTokenToUser(access_token);
+        console.log("Utilisateur authentifié avec le token.");
+        // Optionnel : vous pouvez ajouter des traitements supplémentaires ici
       } else {
         console.warn("Aucun token détecté.");
         this.authenticated = false;
       }
     },
+    // async initializeStore() {
+    //   const access_token = useCookie("access_token").value;
+
+    //   if (access_token) {
+    //     try {
+    //       const config = useRuntimeConfig();
+    //       const response: any = await $fetch(
+    //         `${config.public.apiUrl}/auth/verify-token`,
+    //         {
+    //           method: "POST",
+    //           headers: {
+    //             Authorization: `Bearer ${access_token}`,
+    //           },
+    //         }
+    //       );
+
+    //       if (response.valid) {
+    //         this.authenticated = true;
+    //         this.user = mapTokenToUser(access_token);
+    //         // Optionnel : Vous pouvez ici charger les données utilisateur si nécessaire
+    //         // Example: this.user = await fetchUserData(access_token);
+    //         console.log("Token validé et utilisateur authentifié.");
+    //       } else {
+    //         console.warn("Token invalide, redirection vers login.");
+    //         this.authenticated = false;
+    //         useCookie("access_token").value = null; // Effacer le cookie
+    //       }
+    //     } catch (error) {
+    //       console.error("Erreur lors de la vérification du token :", error);
+    //       this.authenticated = false;
+    //       useCookie("access_token").value = null; // Effacer le cookie
+    //     }
+    //   } else {
+    //     console.warn("Aucun token détecté.");
+    //     this.authenticated = false;
+    //   }
+    // },
   },
 });
