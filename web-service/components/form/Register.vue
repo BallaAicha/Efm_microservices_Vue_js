@@ -105,12 +105,18 @@ const error = ref<string | null>(null);
 // Fonction d'enregistrement
 const register = async () => {
   try {
-    await addUser(user.value);
+    await addUser(user.value).then(async (response) => {
+      if (response) {
+        await authenticateUser(userPayload.value);
+        console.log("Utilisateur enregistré avec succès");
+        error.value = null;
+      }
+    });
     // const response = await addUser(user.value);
     // if (response) {
-    await authenticateUser(userPayload.value);
-    console.log("Utilisateur enregistré avec succès");
-    error.value = null;
+    // await authenticateUser(userPayload.value);
+    // console.log("Utilisateur enregistré avec succès");
+    // error.value = null;
     // }
   } catch (err: any) {
     error.value =
