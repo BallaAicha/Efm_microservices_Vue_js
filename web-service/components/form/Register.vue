@@ -84,7 +84,8 @@ const showPassword = ref(false);
 // Utilisateur
 const user = ref<UserInterface>({
   id: "",
-  name: "",
+  firstName: "",
+  lastName: "",
   email: "user@example.com",
   phoneNumber: "",
   password: "password123",
@@ -94,7 +95,7 @@ const user = ref<UserInterface>({
 });
 
 const userPayload = computed<UserPayloadInterface>(() => ({
-  email: user.value.email,
+  username: user.value.email,
   password: user.value.password || "",
 }));
 

@@ -4,7 +4,7 @@
       <TextTitle :value="'Connectez-vous'" class="mb-3" />
       <div class="d-flex flex-column ga-3">
         <v-text-field
-          v-model="user.email"
+          v-model="user.username"
           label="Email"
           prepend-icon="mdi-account"
           variant="outlined"
