@@ -105,7 +105,7 @@ const error = ref<string | null>(null);
 // Fonction d'enregistrement
 const register = async () => {
   try {
-    addUser(user.value);
+    await addUser(user.value);
     // const response = await addUser(user.value);
     // if (response) {
     await authenticateUser(userPayload.value);
