@@ -31,7 +31,7 @@ export const useAuthStore = defineStore("authStore", {
         this.error = null;
 
         const data = await $fetch<AccessTokenInterface>(
-          `${config.public.apiUrl}/auth/login`,
+          `${config.public.apiUrl}/auth/users/login`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
