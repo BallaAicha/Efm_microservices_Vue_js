@@ -84,12 +84,12 @@ const showPassword = ref(false);
 // Utilisateur
 const user = ref<UserInterface>({
   id: "",
-  firstName: "",
-  lastName: "",
+  firstName: "Simple",
+  lastName: "User",
   email: "user@example.com",
-  phoneNumber: "",
+  phoneNumber: "12345678910",
   password: "password123",
-  passwordConfirmation: "",
+  passwordConfirmation: "password123",
   rating: 0,
   numberOfReviews: 0,
 });
