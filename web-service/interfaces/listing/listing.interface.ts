@@ -1,10 +1,12 @@
+import type { CategoryInterface } from "./category.interface";
+
 // Listing
 export interface ListingInterface {
   id: string; // UUID
   userId: string; // UUID (relation avec User)
   title: string;
   description: string;
-  category: string;
+  category: CategoryInterface[];
   price: number; // Float
   isExchangeable: boolean;
   location: string;
