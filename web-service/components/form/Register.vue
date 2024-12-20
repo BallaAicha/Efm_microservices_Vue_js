@@ -105,12 +105,13 @@ const error = ref<string | null>(null);
 // Fonction d'enregistrement
 const register = async () => {
   try {
-    const response = await addUser(user.value);
-    if (response) {
-      await authenticateUser(userPayload.value);
-      console.log("Utilisateur enregistré avec succès");
-      error.value = null;
-    }
+    addUser(user.value);
+    // const response = await addUser(user.value);
+    // if (response) {
+    await authenticateUser(userPayload.value);
+    console.log("Utilisateur enregistré avec succès");
+    error.value = null;
+    // }
   } catch (err: any) {
     error.value =
       err?.response?.data?.message ||
