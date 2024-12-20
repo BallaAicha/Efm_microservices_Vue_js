@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Notifications",
+    "link": "/",
+    "icon": "mdi-bell"
+  },
+  {
+    "title": "Messages",
+    "link": "/messages",
+    "icon": "mdi-message-processing"
+  }
+]
