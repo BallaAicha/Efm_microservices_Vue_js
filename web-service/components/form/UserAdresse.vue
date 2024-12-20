@@ -4,10 +4,20 @@
       <TextTitle :value="'Informations du compte'" class="mb-4" />
       <v-row>
         <!-- Informations utilisateur -->
-        <v-col cols="12">
+        <v-col cols="12" md="6">
           <v-text-field
-            v-model="props.user.name"
-            label="Nom complet"
+            v-model="props.user.firstName"
+            label="Nom"
+            prepend-icon="mdi-account"
+            variant="outlined"
+            :rules="nameRules"
+            :readonly="!isEditMode"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" md="6">
+          <v-text-field
+            v-model="props.user.lastName"
+            label="Prénom"
             prepend-icon="mdi-account"
             variant="outlined"
             :rules="nameRules"

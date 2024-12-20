@@ -21,7 +21,8 @@ public class UserController {
     // Exemple d'utilisateur pour getUser
     private final User exampleUser = new User(
             "1",
-            "John Doe",
+            "John",
+            "Doe Do",
             "johndoe@example.com",
             "+123456789",
             "",

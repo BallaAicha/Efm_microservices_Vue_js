@@ -5,7 +5,7 @@
         <CardUserProfile :user="user" />
       </v-col>
       <v-col class="ps-0 ps-md-6">
-        <FormRegisterAdresse :user="user" :address="address" />
+        <FormUserAdresse :user="user" :address="address" />
       </v-col>
     </v-row>
   </v-container>
@@ -20,7 +20,8 @@ const userId = useRoute().params.userId as string;
 // Utilisateur
 const user = ref<UserInterface>({
   id: "",
-  name: "",
+  firstName: "",
+  lastName: "",
   email: "",
   phoneNumber: "",
   password: "",

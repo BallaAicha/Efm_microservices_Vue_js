@@ -7,11 +7,11 @@
       <div v-else class="profile__initial">
         <img src="/assets/img/landscape.png" />
         <div class="initial__text">
-          {{ getNameInitials(props.user.name) }}
+          {{ getNameInitials(props.user.firstName + ' ' + props.user.lastName) }}
         </div>
       </div>
       <div class="text-right d-flex flex-column ga-3 align-end">
-        <p class="text-h4 font-weight-medium">{{ props.user.name }}</p>
+        <p class="text-h4 font-weight-medium">{{ props.user.firstName + ' ' + props.user.lastName }}</p>
         <p class="text-h5 text-grey">{{ props.user.email }}</p>
         <p class="text-h5">{{ props.user.phoneNumber }}</p>
         <v-rating

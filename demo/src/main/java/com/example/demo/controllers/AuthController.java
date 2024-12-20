@@ -28,16 +28,16 @@ public class AuthController {
     }
 
     // Méthode POST pour vérifier email/password et renvoyer un token
-    @PostMapping("/login")
+    @PostMapping("/users/login")
     public Map<String, Object> login(@RequestBody Map<String, String> payload) {
         logger.info("Tentative de connexion avec email : {}", payload);
         Map<String, Object> response = new HashMap<>();
 
-        String email = payload.get("email");
+        String username = payload.get("username");
         String password = payload.get("password");
 
         // Validation simplifiée
-        if ("user@example.com".equals(email) && "password123".equals(password)) {
+        if ("user@example.com".equals(username) && "password123".equals(password)) {
             response.put("access_token", TOKEN);
             response.put("status", "success");
         } else {

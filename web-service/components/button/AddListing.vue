@@ -4,7 +4,6 @@
       v-model="dialog"
       transition="dialog-bottom-transition"
       :persistent="true"
-      fullscreen
     >
       <template v-slot:activator="{ props: activatorProps }">
         <v-btn
@@ -21,8 +20,8 @@
           <v-btn icon="mdi-close" @click="dialog = false"></v-btn>
 
           <v-toolbar-title>Nouvelle annonce</v-toolbar-title>
-          <div class="d-flex align-center justify-center">
-            <img src="/assets/img/swap_1.svg" class="nav__logo" />
+          <div class="d-flex align-center justify-center py-3">
+            <img src="/assets/img/logo_8.svg" class="nav__logo" />
           </div>
         </v-toolbar>
         <FormAddListing />
@@ -40,5 +39,5 @@ const widgets = ref(false);
 
 <style lang="scss" scoped>
 .nav__logo {
-  width: 10rem;
+  width: 6rem;
 }</style>

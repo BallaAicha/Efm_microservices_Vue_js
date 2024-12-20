@@ -16,5 +16,5 @@ spring:
 
 server:
   port: 6700
-  servlet:
-    context-path: /demo
+  # servlet:
+  #   context-path: /demo
