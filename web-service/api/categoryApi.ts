@@ -1,14 +1,12 @@
-import type {
-  CategoryInterface,
-} from "~/interfaces/listing/category.interface";
+import type { CategoryInterface } from "~/interfaces/listing/category.interface";
 
-export const getCategorys = async (): Promise<CategoryInterface> => {
+export const getCategoriesAll = async (): Promise<any> => {
   try {
     const config = useRuntimeConfig();
-    const token = useCookie("token");
+    const token = useCookie("access_token");
 
-    const response = await $fetch<CategoryInterface>(
-      `${config.public.apiUrl}/categorys`,
+    const response = await $fetch<any>(
+      `${config.public.apiUrlCategory}/api/categories`,
       {
         method: "GET",
         headers: {
@@ -17,8 +15,7 @@ export const getCategorys = async (): Promise<CategoryInterface> => {
         },
       }
     );
-
-    return response as CategoryInterface;
+    return response;
   } catch (err) {
     console.error("Erreur lors de la requête.", err);
     throw err;
@@ -49,7 +46,7 @@ export const getCategory = async (id: number): Promise<CategoryInterface> => {
 };
 
 export const addCategory = async (
-  data: CategoryInterface,
+  data: CategoryInterface
 ): Promise<CategoryInterface> => {
   try {
     const config = useRuntimeConfig();
@@ -75,7 +72,7 @@ export const addCategory = async (
 };
 
 export const editCategory = async (
-  data: CategoryInterface,
+  data: CategoryInterface
 ): Promise<CategoryInterface> => {
   try {
     const config = useRuntimeConfig();
@@ -103,7 +100,9 @@ export const editCategory = async (
   }
 };
 
-export const deleteCategory = async (id: number): Promise<CategoryInterface> => {
+export const deleteCategory = async (
+  id: number
+): Promise<CategoryInterface> => {
   try {
     const config = useRuntimeConfig();
     const token = useCookie("token");

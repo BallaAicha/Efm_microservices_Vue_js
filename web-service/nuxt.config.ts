@@ -23,6 +23,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiUrl: process.env.API_URL,
+      apiUrlCategory: process.env.API_URL_CATEGORY,
     },
   },
   vite: {

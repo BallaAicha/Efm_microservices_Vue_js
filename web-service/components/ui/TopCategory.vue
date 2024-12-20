@@ -10,7 +10,7 @@
         v-slot="{ isSelected, toggle }"
       >
         <div class="mx-3">
-          <CardCategoryAlt />
+          <CardCategoryAlt :category="category" />
         </div>
       </v-slide-group-item>
     </v-slide-group>
@@ -18,7 +18,16 @@
 </template>
 
 <script lang="ts" setup>
-import categories from "~/data/categories.json";
+import { getCategoriesAll } from "~/api/categoryApi";
+interface Category {
+  id: number;
+}
+
+const categories = ref<Category[]>([]);
+
+onMounted(async () => {
+  categories.value = await getCategoriesAll();
+});
 </script>
 
 <style lang="scss" scoped></style>
