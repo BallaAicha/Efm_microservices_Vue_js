@@ -55,7 +55,7 @@ export const getUser = async (id: string): Promise<UserWithAddressInterface> => 
 export const addUser = async (data: UserInterface): Promise<UserInterface> => {
   try {
     const config = useRuntimeConfig();
-    const access_token = useCookie("access_token");
+    // const access_token = useCookie("access_token");
 
     const response = await $fetch<UserInterface>(
       `${config.public.apiUrl}/auth/users`,
@@ -63,10 +63,11 @@ export const addUser = async (data: UserInterface): Promise<UserInterface> => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${access_token.value}`,
+          // Authorization: `Bearer ${access_token.value}`,
         },
         body: {
-          name: data.name,
+          firstName: data.firstName,
+          lastName: data.lastName,
           email: data.email,
           password: data.password,
           phoneNumber: data.phoneNumber,
