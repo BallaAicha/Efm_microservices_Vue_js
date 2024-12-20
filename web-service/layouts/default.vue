@@ -10,8 +10,8 @@
       <div class="drawer__content">
         <div class="d-flex align-center justify-space-between pa-4">
           <!-- Bouton pour fermer le drawer -->
-          <img v-if="theme.isDark" src="/assets/img/swap_light.svg" class="nav__menu" />
-              <img v-else src="/assets/img/swap_dark.svg" class="nav__menu" />
+          <img v-if="theme.isDark" src="/assets/img/logo_8.svg" class="nav__menu" />
+              <img v-else src="/assets/img/logo_8.svg" class="nav__menu" />
           <v-btn
             @click="drawer = false"
             variant="flat"

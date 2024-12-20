@@ -5,7 +5,7 @@
       class="footer__elements d-flex flex-column"
       :class="!theme.isDark && 'bg-grey'"
     >
-      <img src="/assets/img/logo_8.svg" class="nav__logo" />
+      <img src="/assets/img/swap_light.svg" class="nav__logo" />
       <ButtonTheme />
 
       <div class="text-center text-disabled pa-4">

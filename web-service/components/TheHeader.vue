@@ -12,8 +12,8 @@
         <div class="nav__toolbar d-flex flex-column">
           <div class="d-flex justify-space-between ga-4 align-center mb-3">
             <NuxtLink to="/" class="d-flex align-center justify-end">
-              <img v-if="theme.isDark" src="/assets/img/swap_light.svg" class="nav__logo" />
-              <img v-else src="/assets/img/swap_dark.svg" class="nav__logo" />
+              <img v-if="theme.isDark" src="/assets/img/logo_8.svg" class="nav__logo" />
+              <img v-else src="/assets/img/logo_8.svg" class="nav__logo" />
             </NuxtLink>
             <ButtonAddListing />
             <FormSearchListing class="flex-1-1" />
@@ -58,7 +58,7 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .nav__logo {
-  width: 15rem;
+  width: 5.5rem;
   opacity: 0;
 }
 
