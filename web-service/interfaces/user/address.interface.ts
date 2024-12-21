@@ -4,7 +4,7 @@ export interface AddressInterface {
   userId: string; // UUID (relation avec User)
   houseNumber: string;
   street: string;
-  zipCode: string;
+  postalCode: string;
   city: string;
   country: string;
 }

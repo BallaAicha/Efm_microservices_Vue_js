@@ -13,6 +13,30 @@ export interface UserInterface {
   profilePictureUrl?: string;
 }
 
+export interface UserWithAddressInterface {
+  id: string; // UUID
+  email: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  password?: string;
+  passwordConfirmation?: string;
+  rating: number; // Float
+  status: string;
+  images: [];
+  imagaPath: string | null;
+  numberOfReviews: number;
+  profilePicture?: string | null;
+  address: {
+    id: string,
+    street: string,
+    houseNumber: string,
+    postalCode: string,
+    city: string,
+    country: string,
+  }
+}
+
 export interface UserPayloadInterface {
   username: string;
   password: string;

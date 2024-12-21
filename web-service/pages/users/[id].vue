@@ -5,50 +5,52 @@
         <CardUserProfile :user="user" />
       </v-col>
       <v-col class="ps-0 ps-md-6">
-        <FormUserAdresse :user="user" :address="address" />
+        <FormUserAdresse :user="user" />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script lang="ts" setup>
-import type { UserInterface } from "~/interfaces/user/user.interface";
+import type { UserWithAddressInterface } from "~/interfaces/user/user.interface";
 import { getUser } from "~/api/userApi";
 
-const userId = useRoute().params.userId as string;
+// const userId = useRoute().params.userId as string;
 
 // Utilisateur
-const user = ref<UserInterface>({
-  id: "",
+const user = ref<UserWithAddressInterface>({
+  id: "", // UUID
+  email: "",
   firstName: "",
   lastName: "",
-  email: "",
   phoneNumber: "",
-  password: "",
-  passwordConfirmation: "",
-  rating: 0,
+  password: undefined,
+  passwordConfirmation: undefined,
+  rating: 0, // Float
+  status: "",
+  images: [],
+  imagaPath: null,
   numberOfReviews: 0,
-});
-// Adrresse
-const address = ref({
-  id: "",
-  userId: "",
-  houseNumber: "",
-  street: "",
-  zipCode: "",
-  city: "",
-  country: "",
+  profilePicture: null,
+  address: {
+    id: "", // UUID
+    street: "",
+    houseNumber: "",
+    postalCode: "",
+    city: "",
+    country: "",
+  },
 });
 
-const fetchUserData = async (userId: string) => {
+
+const fetchUserData = async () => {
   try {
-    const data = await getUser(userId);
+    const data = await getUser();
     user.value = data.user;
-    address.value = data.address;
   } catch (error) {
     console.error("Erreur lors de la récupération des données :", error);
   }
 };
 
-onMounted(() => fetchUserData(userId));
+onMounted(() => fetchUserData());
 </script>

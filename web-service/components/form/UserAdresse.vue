@@ -77,7 +77,7 @@
       <v-row>
         <v-col cols="12" md="5">
           <v-text-field
-            v-model="props.address.street"
+            v-model="props.user.address.street"
             label="Rue"
             prepend-icon="mdi-road"
             variant="outlined"
@@ -86,7 +86,7 @@
         </v-col>
         <v-col cols="12" md="4">
           <v-text-field
-            v-model="props.address.houseNumber"
+            v-model="props.user.address.houseNumber"
             label="Numéro de maison"
             prepend-icon="mdi-home"
             variant="outlined"
@@ -95,7 +95,7 @@
         </v-col>
         <v-col cols="12" md="3">
           <v-text-field
-            v-model="props.address.zipCode"
+            v-model="props.user.address.postalCode"
             label="Code postal"
             prepend-icon="mdi-map-marker"
             variant="outlined"
@@ -104,7 +104,7 @@
         </v-col>
         <v-col cols="12" md="6">
           <v-text-field
-            v-model="props.address.city"
+            v-model="props.user.address.city"
             label="Ville"
             prepend-icon="mdi-city"
             variant="outlined"
@@ -113,7 +113,7 @@
         </v-col>
         <v-col cols="12" md="6">
           <v-text-field
-            v-model="props.address.country"
+            v-model="props.user.address.country"
             label="Pays"
             prepend-icon="mdi-earth"
             variant="outlined"
@@ -136,12 +136,14 @@
 </template>
 
 <script setup lang="ts">
-import type { UserInterface } from "~/interfaces/user/user.interface";
-import type { AddressInterface } from "~/interfaces/user/address.interface";
+import type {
+  // UserInterface,
+  UserWithAddressInterface,
+} from "~/interfaces/user/user.interface";
+// import type { AddressInterface } from "~/interfaces/user/address.interface";
 
 const props = defineProps<{
-  user: UserInterface;
-  address: AddressInterface;
+  user: UserWithAddressInterface;
 }>();
 
 const showPassword = ref(false);

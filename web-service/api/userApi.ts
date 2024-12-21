@@ -1,10 +1,10 @@
 import type { AddressInterface } from "~/interfaces/user/address.interface";
-import type { UserInterface } from "~/interfaces/user/user.interface";
+import type { UserInterface, UserWithAddressInterface } from "~/interfaces/user/user.interface";
 
-interface UserWithAddressInterface {
-  user: UserInterface;
-  address: AddressInterface;
-}
+// interface UserWithAddressInterface {
+//   user: UserInterface;
+//   address: AddressInterface;
+// }
 
 export const getUsers = async (page: number = 1): Promise<UserInterface> => {
   try {
@@ -29,13 +29,13 @@ export const getUsers = async (page: number = 1): Promise<UserInterface> => {
   }
 };
 
-export const getUser = async (id: string): Promise<UserWithAddressInterface> => {
+export const getUser = async (): Promise<any> => {
   try {
     const config = useRuntimeConfig();
     const access_token = useCookie("access_token");
 
-    const response = await $fetch<UserWithAddressInterface>(
-      `${config.public.apiUrl}/users/${id}`,
+    const response = await $fetch<any>(
+      `${config.public.apiUrl}/auth/users/me`,
       {
         method: "GET",
         headers: {
