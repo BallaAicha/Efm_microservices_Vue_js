@@ -86,9 +86,12 @@
     </v-card>
     <v-dialog v-model="notification" max-width="400" persistent>
       <v-card prepend-icon="mdi-check" title="Inscription réussie" class="pa-6">
-        <div class="pb-6">
+        <div class="pb-3">
           Votre compte a été créé avec succès. Vous pouvez maintenant vous
           connecter.
+        </div>
+        <div class="pb-6">
+          Un mail de confirmation vous a été envoyé. Veuillez vérifier votre boîte de réception.
         </div>
         <div class="d-flex justify-end">
           <v-btn

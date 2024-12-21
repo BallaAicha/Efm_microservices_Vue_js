@@ -11,8 +11,8 @@ export interface ListingInterface {
   isExchangeable: boolean;
   location: string;
   condition: "NEW" | "USED"; // Enum
-  createdAt?: Date; // DateTime
-  updatedAt?: Date; // DateTime
+  createdAt: Date; // DateTime
+  updatedAt: Date; // DateTime
   status: "ACTIVE" | "SOLD" | "REMOVED"; // Enum
 }
 

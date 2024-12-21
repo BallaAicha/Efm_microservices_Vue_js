@@ -1,6 +1,3 @@
 <template>
-  <v-container>
-
-    <FormSelectCategory />
-  </v-container>
+  <UiInbox />
 </template>

@@ -25,6 +25,8 @@ onMounted(async () => {
 });
 
 const parentCategories = computed(() => categoryStore.parentCategories);
+
+const search = ref(false);
 </script>
 
 <style lang="scss" scoped></style>

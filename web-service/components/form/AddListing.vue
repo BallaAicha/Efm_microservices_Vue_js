@@ -99,7 +99,7 @@
               color="error"
               variant="outlined"
               append-icon="mdi-close"
-              @click="$emit('cancel')"
+              @click="emit('cancel')"
             >
             </v-btn>
             <v-btn
@@ -139,6 +139,8 @@ onMounted(async () => {
     console.error("Erreur lors de la récupération des catégories :", error);
   }
 });
+
+const emit = defineEmits(["cancel", "next"]);
 
 // Générer l'arborescence pour le TreeView
 const categoryTree = computed(() => {
@@ -190,17 +192,17 @@ const resetValidation = () => {
 
 // Validation et action suivante
 const validateAndProceed = () => {
-  if (
-    !listing.value.title ||
-    !listing.value.price ||
-    !listing.value.category.length
-  ) {
-    console.error("Formulaire invalide !");
-    console.log("Listing invalide :", listing.value.category);
-    console.log("Annonce invalide :", listing.value.title);
-    return;
-  }
+  // if (
+  //   !listing.value.title ||
+  //   !listing.value.price ||
+  //   !listing.value.category.length
+  // ) {
+  //   console.error("Formulaire invalide !");
+  //   console.log("Listing invalide :", listing.value.category);
+  //   console.log("Annonce invalide :", listing.value.title);
+  //   return;
+  // }
   console.log("Listing validé :", listing.value);
-  $emit("next");
+  emit("next");
 };
 </script>

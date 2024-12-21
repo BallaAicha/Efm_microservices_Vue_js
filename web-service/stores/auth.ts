@@ -1,9 +1,10 @@
-import { mapTokenToUser } from "#build/imports";
+import { mapTokenToUser } from "../utils/tokenUtils";
 import type {
   UserInterface,
   UserPayloadInterface,
 } from "~/interfaces/user/user.interface";
 
+import { useMessageStore } from "./message";
 interface AccessTokenInterface {
   access_token: string;
   status?: string;
@@ -73,6 +74,7 @@ export const useAuthStore = defineStore("authStore", {
     async logUserOut() {
       const token = useCookie("access_token");
       const config = useRuntimeConfig();
+      const messageStore = useMessageStore();
 
       if (!token.value) {
         console.warn("Aucun token trouvé pour déconnexion.");
@@ -81,6 +83,7 @@ export const useAuthStore = defineStore("authStore", {
 
       // Réinitialisation de l'état utilisateur
       this.authenticated = false;
+      messageStore.close(); // Fermer le message d'erreur si ouvert
       this.user = null;
       useCookie("access_token").value = null; // Effacer le cookie
 

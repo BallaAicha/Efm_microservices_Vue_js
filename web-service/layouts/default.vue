@@ -46,6 +46,7 @@
     <v-main class="pt-6">
       <slot />
     </v-main>
+    <CardMiniDiscussion v-if="isOpen" />
 
     <TheFooter />
   </v-app>
@@ -53,8 +54,9 @@
 
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { useDisplay } from "vuetify";
+
+const { isOpen } = storeToRefs(useMessageStore());
 
 // Accès au thème
 const theme = useThemeStore();

@@ -6,7 +6,8 @@ export function mapTokenToUser(token: string): UserInterface {
 
   const user: UserInterface = {
     id: decodedToken.sub || "", // Utilisation de 'sub' comme ID de l'utilisateur
-    name: decodedToken.given_name + " " + decodedToken.family_name || "",
+    firstName: decodedToken.given_name || "",
+    lastName: decodedToken.family_name || "",
     email: decodedToken.email || "",
     phoneNumber: decodedToken.phoneNumber || "",
     rating: parseFloat(decodedToken.rating) || 0.0,

@@ -1,8 +1,7 @@
 <template>
   <v-container class="d-flex flex-column ga-4">
-    <CardCallToAction />
-    <UiTopCategory />
-    <UiAllListing />
+    <FormSelectCategory />
+    <FormSelectCategory2 />
   </v-container>
 </template>
 
