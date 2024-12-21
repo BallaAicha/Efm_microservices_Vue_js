@@ -1,17 +1,15 @@
 <template>
   <v-app id="app">
+    <!-- Drawer pour les écrans mobiles -->
     <v-navigation-drawer
       v-if="isMobile"
       v-model="drawer"
       :width="400"
       :mobile="true"
     >
-      <!-- Contenu du drawer -->
       <div class="drawer__content">
         <div class="d-flex align-center justify-space-between pa-4">
-          <!-- Bouton pour fermer le drawer -->
-          <img v-if="theme.isDark" src="/assets/img/logo_8.svg" class="nav__menu" />
-              <img v-else src="/assets/img/logo_8.svg" class="nav__menu" />
+          <img src="~/assets/img/logo_8.svg" class="nav__menu" />
           <v-btn
             @click="drawer = false"
             variant="flat"
@@ -22,6 +20,8 @@
         <NavbarSideBar />
       </div>
     </v-navigation-drawer>
+
+    <!-- Navigation mobile -->
     <div v-if="isMobile" class="navigation__mobile">
       <div class="pa-4">
         <div class="d-flex align-center justify-center mb-4">
@@ -29,40 +29,50 @@
             @click="drawer = !drawer"
             variant="flat"
             icon="mdi-menu"
-            class="drawer__btn--open ms-4"
+            class="drawer__btn--open"
           ></v-btn>
-          <NuxtLink to="/" class="d-flex align-center justify-end">
-              <img v-if="theme.isDark" src="/assets/img/swap_light.svg" class="nav__logo" />
-              <img v-else src="/assets/img/swap_dark.svg" class="nav__logo" />
-            </NuxtLink>
+          <NuxtLink to="/" class="d-flex align-center">
+            <img src="~/assets/img/logo_8.svg" class="nav__logo" />
+          </NuxtLink>
         </div>
         <FormSearchListing class="flex-1-1" />
       </div>
     </div>
+
+    <!-- Header pour les écrans desktop -->
     <TheHeader v-else class="navigation__desktop" />
+
+    <!-- Contenu principal -->
     <v-main class="pt-6">
       <slot />
     </v-main>
+    <CardMiniDiscussion v-if="isOpen" />
+
     <TheFooter />
   </v-app>
 </template>
 
+
 <script setup lang="ts">
-import { ref } from "vue";
 import { useDisplay } from "vuetify";
+
+const { isOpen } = storeToRefs(useMessageStore());
+
+// Accès au thème
 const theme = useThemeStore();
 
+// État du drawer
 const drawer = ref(false);
 
-// Utilisation du service Vuetify pour détecter la taille de l'écran
-const { mdAndDown } = useDisplay(); // `mdAndDown` est vrai pour les écrans de taille "medium" et inférieure
-
-const isMobile = mdAndDown;
+// Détection des écrans mobiles
+const { mdAndDown } = useDisplay();
+const isMobile = ref(mdAndDown); // `mdAndDown` est vrai pour les écrans "medium" et inférieurs
 </script>
+
 
 <style lang="scss" scoped>
 .nav__logo {
-  width: 15rem;
+  width: 10rem;
 }
 
 .nav__menu {
@@ -74,7 +84,19 @@ const isMobile = mdAndDown;
 
   .drawer__btn--open {
     position: absolute;
-    left: 0;
+    left: 2rem;
   }
 }
+
+.drawer__content {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  height: 100%;
+}
+
+.drawer__btn--close {
+  margin-left: auto;
+}
 </style>
+

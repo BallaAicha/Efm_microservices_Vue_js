@@ -1,85 +1,111 @@
 <template>
-  <v-card
-    :disabled="loading"
-    :loading="loading"
-    class="mx-auto my-12"
-    max-width="374"
-  >
-    <template v-slot:loader="{ isActive }">
-      <v-progress-linear
-        :active="isActive"
-        color="deep-purple"
-        height="4"
-        indeterminate
-      ></v-progress-linear>
-    </template>
-
-    <v-img
-      height="250"
-      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-      cover
-    ></v-img>
-
-    <v-card-item>
-      <v-card-title>Iphone XS</v-card-title>
-
-      <v-card-subtitle>
-        <span class="me-1">Local Favorite</span>
-
-        <v-icon color="error" icon="mdi-fire-circle" size="small"></v-icon>
-      </v-card-subtitle>
-    </v-card-item>
-
-    <v-card-text>
-      <div class="my-4 text-subtitle-1">$ • Italian, Cafe</div>
-
-      <div>
-        Small plates, salads & sandwiches - an intimate setting with 12 indoor
-        seats plus patio seating.
+  <div class="card d-flex flex-column justify-space-between">
+    <div>
+      <div class="card__img d-flex justify-center">
+        <img
+          :src="photoUrl"
+        ></img>
       </div>
-    </v-card-text>
+      <div class="card__content">
+        <div class="card__title">{{ listing.title }}</div>
+        <div class="text-h6">{{ listing.price }}</div>
+        <div class="d-flex align-center justify-start ga-2">
+        <v-icon :color="listing.isExchangeable ? 'primary' : 'grey'" icon="mdi-swap-horizontal"></v-icon>
+        <v-icon v-if="listing.condition === 'NEW'" color="success" icon=" mdi-new-box"></v-icon>
+        <v-icon v-if="listing.condition === 'USED'" color="grey" icon=" mdi-alert"></v-icon>
+      </div>
 
-    <v-divider class="mx-4 mb-1"></v-divider>
-
-    <!-- <v-card-title>Catégories</v-card-title> -->
-
-    <div class="px-4 mb-2">
-      <v-chip-group v-model="selection" selected-class="bg-grey">
-        <v-chip>Électronique</v-chip>
-        <v-chip>Informatique</v-chip>
-        <v-chip>Smartphone</v-chip>
-        <v-chip>Mobile</v-chip>
-      </v-chip-group>
+          <div class="text-body-2">{{ listing.location }}</div>
+          <div class="text-caption">{{ formatDate(listing.createdAt) }}</div>
+        </div>
     </div>
-
-    <v-card-actions>
-      <v-btn
-        color="primary"
-        text="Interessé"
-        @click="reserve"
-        border
-      ></v-btn>
-      <v-btn
-        color="error"
+          
+      <div class="card__action d-flex align-center justify-space-between ga-2">
+           
+            <v-btn
+            :style="computedStyle"
+            icon="mdi-email"
+            color="secondary"
+            size="small"
+            :disabled="contact ? false : true"
+            flat
+            @click="messageStore.open(props.listing)"     
+          ></v-btn
+        >
+        <v-btn
+        @click="contact = !contact"  
         icon="mdi-heart"
-        @click="reserve"
-      ></v-btn>
-    </v-card-actions>
-  </v-card>
+        size="small"
+        flat
+        :color="contact ? 'error' : 'white'"
+          ></v-btn>
+          </div> 
+  </div>
 </template>
-<script>
-export default {
-  data: () => ({
-    loading: false,
-    selection: 1,
-  }),
 
-  methods: {
-    reserve() {
-      this.loading = true;
+<script lang="ts" setup>
+import type { ListingInterface } from '~/interfaces/listing/listing.interface';
+import { formatDate } from '~/utils/dateUtils';
 
-      setTimeout(() => (this.loading = false), 2000);
-    },
-  },
+import photos from "~/data/photos.json";
+
+const getRandomPhoto = (photos: any): string => {
+  if (!photos || photos.length === 0) {
+    return '';
+  }
+
+  const randomIndex = Math.floor(Math.random() * photos.length);
+  return photos[randomIndex].source || '';
 };
+
+// Utilisation dans votre composant:
+const photoUrl = getRandomPhoto(photos);
+
+const messageStore = useMessageStore();
+
+// const reveal = ref(false);
+const contact = ref(false);
+
+const props = defineProps<{
+  listing: ListingInterface
+}>();
+const computedStyle = computed(() => {
+  return contact.value ? { opacity: '1' } : { opacity: '0' };
+});
 </script>
+
+<style lang="scss" scoped>
+a {
+  text-decoration: none;
+}
+
+.card {
+  position: relative;
+  // background-color: $light;
+  // color: $dark;
+  padding: 0.35rem;
+  border-radius: 1.5rem;
+  height: auto;
+
+  .card__title {
+    font-weight: 400;
+    margin-top: 0.75rem;
+    @include paragraph-overflow-hidden(2)
+  }
+
+  .card__img {
+    img {
+      width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 1.25rem;
+  }
+    }
+
+    .card__action {
+      position: absolute;
+right: .75rem;
+top: .75rem
+    }
+}
+</style>

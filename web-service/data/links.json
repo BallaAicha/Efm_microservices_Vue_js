@@ -1,8 +1,8 @@
 [
   {
-    "title": "Notifications",
-    "link": "/",
-    "icon": "mdi-bell"
+    "title": "Favoris",
+    "link": "/listings",
+    "icon": "mdi-heart"
   },
   {
     "title": "Messages",

@@ -6,17 +6,16 @@
         <v-col cols="12" sm="4">
           <v-text-field
             v-model="listing.title"
-            :rules="[rules.required, rules.maxLength(100)]"
             label="Titre"
             required
             variant="outlined"
           ></v-text-field>
         </v-col>
+
         <!-- Price -->
         <v-col cols="12" sm="4">
           <v-text-field
             v-model="listing.price"
-            :rules="[rules.required, rules.positiveNumber]"
             label="Prix"
             required
             variant="outlined"
@@ -24,49 +23,42 @@
             prefix="Dh"
           ></v-text-field>
         </v-col>
+
         <!-- Location -->
         <v-col cols="12" sm="4">
           <v-text-field
             v-model="listing.location"
-            :rules="[rules.required]"
             label="Localisation"
             variant="outlined"
           ></v-text-field>
         </v-col>
+
         <!-- Description -->
         <v-col cols="12">
           <v-textarea
             v-model="listing.description"
-            :rules="[rules.required, rules.maxLength(500)]"
             label="Description"
             variant="outlined"
           ></v-textarea>
         </v-col>
 
-        <!-- Category -->
-        <!-- <v-col cols="12">
-          <v-select
-          v-model="listing.category"
-          :items="categories"
-          :rules="[rules.required]"
-          label="Catégorie"
-          variant="outlined"
-          ></v-select>
-        </v-col> -->
-        
-        <!-- Category -->
+        <!-- TreeView for Categories -->
         <v-col cols="12">
-          <v-select
-            v-model="listing.category"
-            clearable
-            chips
-            label="Catégories"
-            :items="categoryStore.categories"
+          <v-treeview
+            v-model:selected="listing.category"
+            :items="categoryTree"
+            selectable
             item-value="id"
             item-title="name"
+            false-icon="mdi-bookmark-outline"
+            indeterminate-icon="mdi-bookmark-minus"
+            true-icon="mdi-bookmark"
+            select-strategy="classic"
+            open-on-click
+            show-checkbox
             multiple
-            variant="outlined"
-          ></v-select>
+            label="Catégories"
+          ></v-treeview>
         </v-col>
 
         <!-- Is Exchangeable -->
@@ -83,7 +75,6 @@
           <v-select
             v-model="listing.condition"
             :items="['NEW', 'USED']"
-            :rules="[rules.required]"
             label="État"
             variant="outlined"
           ></v-select>
@@ -94,7 +85,6 @@
           <v-select
             v-model="listing.status"
             :items="['ACTIVE', 'SOLD', 'REMOVED']"
-            :rules="[rules.required]"
             label="Statut"
             variant="outlined"
           ></v-select>
@@ -102,16 +92,30 @@
 
         <!-- Buttons -->
         <v-col>
-          <div class="d-flex flex-column flex-lg-row justify-end ga-3">
-            <v-btn class="" variant="flat" @click="resetValidation">
+          <div class="d-flex flex-column flex-lg-row justify-end ga-6">
+            <v-btn
+              class="text-none"
+              text="Annuler"
+              color="error"
+              variant="outlined"
+              append-icon="mdi-close"
+              @click="emit('cancel')"
+            >
+            </v-btn>
+            <v-btn
+              class="text-none"
+              variant="outlined"
+              @click="resetValidation"
+            >
               Effacer
             </v-btn>
             <v-btn
-              class=""
+              class="text-none"
               text="Suivant"
               color="primary"
+              flat
               append-icon="mdi-chevron-right"
-              @click="addListing, $emit('next')"
+              @click="validateAndProceed"
             >
             </v-btn>
           </div>
@@ -122,22 +126,43 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed, onMounted } from "vue";
 import type { ListingInterface } from "~/interfaces/listing/listing.interface";
-import categories from "~/data/categories.json";
-
-defineProps([]);
-defineEmits(["next"]);
 
 const categoryStore = useCategoryStore();
-categoryStore.fetchCategories();
 
+// Charger les catégories à partir du store
+onMounted(async () => {
+  try {
+    await categoryStore.fetchCategories();
+  } catch (error) {
+    console.error("Erreur lors de la récupération des catégories :", error);
+  }
+});
+
+const emit = defineEmits(["cancel", "next"]);
+
+// Générer l'arborescence pour le TreeView
+const categoryTree = computed(() => {
+  const buildTree = (categories, parentId = null) =>
+    categories
+      .filter((cat) => cat.parentCategoryId === parentId)
+      .map((cat) => ({
+        id: cat.id,
+        name: cat.name,
+        children: buildTree(categories, cat.id),
+      }));
+
+  return buildTree(categoryStore.categories);
+});
+
+// Définitions des propriétés du formulaire
 const listing = ref<ListingInterface>({
   id: "",
   userId: "",
   title: "",
   description: "",
-  category: [],
+  category: [], // Tableau des catégories sélectionnées
   price: 0,
   isExchangeable: false,
   location: "",
@@ -147,17 +172,8 @@ const listing = ref<ListingInterface>({
   updatedAt: undefined,
 });
 
-const previews = ref<string[]>([]);
-
-const rules = {
-  required: (v: any) => !!v || "Ce champ est requis",
-  maxLength: (length: number) => (v: string) =>
-    !v || v.length <= length || `Maximum ${length} caractères`,
-  positiveNumber: (v: number) => v > 0 || "Le nombre doit être positif",
-};
-
+// Réinitialiser le formulaire
 const resetValidation = () => {
-  previews.value = [];
   listing.value = {
     id: "",
     userId: "",
@@ -174,7 +190,19 @@ const resetValidation = () => {
   };
 };
 
-const addListing = () => {
-  console.log("Listing ajouté :", listing.value);
+// Validation et action suivante
+const validateAndProceed = () => {
+  // if (
+  //   !listing.value.title ||
+  //   !listing.value.price ||
+  //   !listing.value.category.length
+  // ) {
+  //   console.error("Formulaire invalide !");
+  //   console.log("Listing invalide :", listing.value.category);
+  //   console.log("Annonce invalide :", listing.value.title);
+  //   return;
+  // }
+  console.log("Listing validé :", listing.value);
+  emit("next");
 };
 </script>

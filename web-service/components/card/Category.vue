@@ -19,11 +19,10 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-  title: String,
-  children: {
-    type: Array,
-    default: () => [],
-  },
-});
+import type { CategoryInterface } from '~/interfaces/listing/category.interface';
+
+defineProps<{
+  title: string;
+  children: CategoryInterface[];
+}>();
 </script>

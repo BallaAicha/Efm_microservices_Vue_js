@@ -6,6 +6,7 @@ import "vuetify/styles";
 import { fr } from "vuetify/locale";
 import { VCalendar } from "vuetify/labs/VCalendar";
 import { VTimePicker } from "vuetify/labs/VTimePicker";
+import { VTreeview } from 'vuetify/labs/VTreeview'
 
 const myCustomLightTheme: ThemeDefinition = {
   dark: false,
@@ -41,6 +42,7 @@ export default defineNuxtPlugin((app) => {
     components: {
       VCalendar,
       VTimePicker,
+      VTreeview,
     },
     directives,
     locale: {

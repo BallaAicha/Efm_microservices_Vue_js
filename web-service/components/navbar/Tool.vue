@@ -21,7 +21,7 @@
         class="text-none"
         :ripple="false"
       >
-        {{ user?.name }}
+        {{ user?.firstName }}
       </v-btn>
     </NuxtLink>
     <v-btn

@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "text": "Bonjour, comment vas-tu aujourd'hui ?",
+    "sender": "them",
+    "timestamp": "2024-12-20T10:00:00"
+  },
+  {
+    "id": 2,
+    "text": "Ça va bien, merci ! Et toi ?",
+    "sender": "me",
+    "timestamp": "2024-12-20T10:02:00"
+  },
+  {
+    "id": 3,
+    "text": "Je vais bien aussi, merci de demander.",
+    "sender": "them",
+    "timestamp": "2024-12-20T10:03:00"
+  },
+  {
+    "id": 4,
+    "text": "Super, tu as eu des nouvelles du projet ?",
+    "sender": "me",
+    "timestamp": "2024-12-20T10:05:00"
+  },
+  {
+    "id": 5,
+    "text": "Oui, tout avance bien. Nous avons presque terminé la première phase.",
+    "sender": "them",
+    "timestamp": "2024-12-20T10:07:00"
+  },
+  {
+    "id": 6,
+    "text": "C'est une excellente nouvelle !",
+    "sender": "me",
+    "timestamp": "2024-12-20T10:10:00"
+  }
+]

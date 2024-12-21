@@ -5,12 +5,12 @@
     </div>
     <v-slide-group show-arrows class="py-6">
       <v-slide-group-item
-        v-for="category in categories"
+        v-for="category in parentCategories"
         :key="category.id"
         v-slot="{ isSelected, toggle }"
       >
         <div class="mx-3">
-          <CardCategoryAlt :category="category" />
+          <CardParentCategory :category="category" />
         </div>
       </v-slide-group-item>
     </v-slide-group>
@@ -18,16 +18,15 @@
 </template>
 
 <script lang="ts" setup>
-import { getCategoriesAll } from "~/api/categoryApi";
-interface Category {
-  id: number;
-}
-
-const categories = ref<Category[]>([]);
+const categoryStore = useCategoryStore();
 
 onMounted(async () => {
-  categories.value = await getCategoriesAll();
+  await categoryStore.fetchCategories();
 });
+
+const parentCategories = computed(() => categoryStore.parentCategories);
+
+const search = ref(false);
 </script>
 
 <style lang="scss" scoped></style>

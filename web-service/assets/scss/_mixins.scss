@@ -1,6 +1,7 @@
 // A utiliser qu'avec des paramètres
 // Pour appeler un mixin
 // @include pseudo-el(block, absolute, "")
+// @include paragraph-overflow-hidden(2)
 
 @mixin pseudo-el($display: block, $position: absolute, $content: "") {
   content: $content;

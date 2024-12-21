@@ -13,6 +13,6 @@
         ></v-text-field>
       </v-col>
     </v-row>
-    <v-btn color="secondary" text="Reinitialiser"></v-btn>
+    <v-btn color="secondary" text="Reinitialiser" class="text-none"></v-btn>
   </v-card>
 </template>

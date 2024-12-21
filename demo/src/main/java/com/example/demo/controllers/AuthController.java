@@ -2,8 +2,11 @@ package com.example.demo.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.entities.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,10 +35,10 @@ public class AuthController {
     public Map<String, Object> login(@RequestBody Map<String, String> payload) {
         logger.info("Tentative de connexion avec email : {}", payload);
         Map<String, Object> response = new HashMap<>();
-
+        
         String username = payload.get("username");
         String password = payload.get("password");
-
+        
         // Validation simplifiée
         if ("user@example.com".equals(username) && "password123".equals(password)) {
             response.put("access_token", TOKEN);
@@ -46,7 +49,26 @@ public class AuthController {
         }
         return response;
     }
+    
+    @PostMapping("/users") 
+    public ResponseEntity<Object> addUser(@RequestBody User user) {
+        logger.info("Tentative de connexion avec email : {}", user.getEmail());
 
+        String email = user.getEmail();
+        String password = user.getPassword();
+
+        // Validation simplifiée
+        if ("user@example.com".equals(email) && "password123".equals(password)) {
+            // Simule l'ajout d'utilisateur (dans un vrai cas, il faudrait persister cet
+            // utilisateur)
+            return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        } else {
+            // Retourne un message d'erreur avec le statut FORBIDDEN
+            String errorMessage = "Les identifiants fournis sont incorrects.";
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorMessage);
+        }
+    }
+    
     // Méthode POST pour déconnexion
     @PostMapping("/logout")
     public ResponseEntity<?> logout(@RequestHeader("Authorization") String authorization) {
