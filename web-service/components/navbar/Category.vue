@@ -1,47 +1,74 @@
 <template>
-  <div class="d-flex justify-space-between text-center">
-    <v-btn
-      v-for="category in parentCategories"
-      :key="category.id"
-      :ripple="false"
-      class="text-none"
-      flat
-      variant="text"
-      rounded
-    >
-      {{ category.name }}
-      <v-menu
-        activator="parent"
-        location="bottom center"
-        transition="fade-transition"
-        :open-on-hover="true"
-      >
-        <CardCategory
-          :title="category.name"
-          :children="childrenByParent[category.id]"
-          class="mt-4"
-        />
-      </v-menu>
-    </v-btn>
+  <div class="d-flex align-center justify-space-between text-center">
+    <div v-for="category in categoryStore.parentCategories" :key="category.id">
+      <div class="text-center parentCategory">
+        {{ category.name }}
+        <v-menu
+          activator="parent"
+          location="bottom center"
+          transition="fade-transition"
+          :open-on-hover="true"
+        >
+          <CardCategory
+            :title="category.name"
+            :children="
+              category.id !== undefined
+                ? childrenByParent[category.id] || []
+                : []
+            "
+            class="mt-4"
+          />
+        </v-menu>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import categories from "~/data/categories.json";
+import type { CategoryInterface } from "~/interfaces/listing/category.interface";
 
-// Extraire les catégories parentes (parentCategoryId === null)
-const parentCategories = categories.filter(
-  (category) => category.parentCategoryId === null
-);
+const categoryStore = useCategoryStore();
 
-// Regrouper les enfants par parentCategoryId
-const childrenByParent = categories.reduce((acc, category) => {
-  if (category.parentCategoryId) {
-    if (!acc[category.parentCategoryId]) {
-      acc[category.parentCategoryId] = [];
+onMounted(async () => {
+  await categoryStore.fetchCategories();
+});
+
+const childrenByParent = computed(() => {
+  return categoryStore.categories.reduce((acc, category) => {
+    if (category.parentCategoryId) {
+      if (!acc[category.parentCategoryId]) {
+        acc[category.parentCategoryId] = [];
+      }
+      acc[category.parentCategoryId].push(category);
     }
-    acc[category.parentCategoryId].push(category);
-  }
-  return acc;
-}, {} as Record<number, Array<{ id: number; name: string; parentCategoryId: number | null }>>);
+    return acc;
+  }, {} as Record<number | string, CategoryInterface[]>);
+});
 </script>
+
+<style lang="scss" scoped>
+.parentCategory {
+  flex: auto;
+  cursor: pointer;
+  padding-top: 0.5rem;
+
+  &:hover {
+    color: $secondary;
+    transition: 0.4s;
+  }
+
+  &::after {
+    content: "";
+    width: 0%;
+    height: 2px;
+    background: $secondary;
+    display: block;
+    transition: 0.4s;
+    margin-top: 5px;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+}
+</style>

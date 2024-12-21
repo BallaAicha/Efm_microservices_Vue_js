@@ -1,10 +1,12 @@
 <template>
   <div class="cta">
-    <img src="/assets/img/landscape.png" alt="Illustration de vente" class="cta__image" />
+    <img
+      src="/assets/img/landscape.png"
+      alt="Illustration de vente"
+      class="cta__image"
+    />
     <div class="cta__content">
-      <div class="cta__text text-white">
-        C'est le moment de vendre
-      </div>
+      <div class="cta__text text-white mb-4">C'est le moment de vendre</div>
       <ButtonAddListing />
     </div>
   </div>
@@ -14,6 +16,8 @@
 .cta {
   position: relative;
   height: 15rem;
+  @extend %flex-center-el;
+  flex-direction: column;
 
   &__image {
     border-radius: 0.5rem;
@@ -24,13 +28,7 @@
 
   &__content {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+
     text-align: center;
   }
 

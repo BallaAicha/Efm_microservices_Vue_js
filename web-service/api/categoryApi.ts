@@ -1,6 +1,6 @@
 import type { CategoryInterface } from "~/interfaces/listing/category.interface";
 
-export const getCategoriesAll = async (): Promise<any> => {
+export const getCategoriesAll = async (): Promise<CategoryInterface[]> => {
   try {
     const config = useRuntimeConfig();
     const token = useCookie("access_token");
@@ -15,7 +15,7 @@ export const getCategoriesAll = async (): Promise<any> => {
         },
       }
     );
-    return response;
+    return response as CategoryInterface[];
   } catch (err) {
     console.error("Erreur lors de la requête.", err);
     throw err;

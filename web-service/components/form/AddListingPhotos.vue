@@ -34,14 +34,25 @@
 
         <!-- Buttons -->
         <v-col>
-          <div class="d-flex flex-column flex-lg-row justify-end ga-3">
+          <div class="d-flex flex-column flex-lg-row justify-end ga-6">
             <v-btn
-              class=""
+              class="text-none"
+              text="Publier sans photos"
+              color="warning"
+              variant="outlined"
+              append-icon="mdi-image-off"
+              @click="$emit('cancel')"
+            >
+            </v-btn>
+            <v-btn
+              class="text-none"
               color="primary"
+              text="Poster annonce"
+              flat
               append-icon="mdi-tag-plus"
               @click="$emit('add')"
+              :disabled="!previews.length"
             >
-              Ajouter
             </v-btn>
           </div>
         </v-col>
@@ -59,14 +70,14 @@ import type {
 import categories from "~/data/categories.json";
 
 defineProps([]);
-defineEmits(["add"]);
+defineEmits(["add", "cancel"]);
 
 const listing = ref<ListingInterface>({
   id: "",
   userId: "",
   title: "",
   description: "",
-  category: "",
+  category: [],
   price: 0,
   isExchangeable: false,
   location: "",
@@ -92,7 +103,7 @@ const resetValidation = () => {
     userId: "",
     title: "",
     description: "",
-    category: "",
+    category: [],
     price: 0,
     isExchangeable: false,
     location: "",
@@ -130,10 +141,12 @@ const addListing = () => {
 .preview--container {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   gap: 0.5rem;
 
   .preview--image {
-    width: 10rem;
+    max-width: 10rem;
     aspect-ratio: 1 / 1;
     object-fit: cover;
     flex: auto;

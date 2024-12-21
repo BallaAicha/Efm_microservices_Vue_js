@@ -1,10 +1,10 @@
 <template>
   <nav>
-    <div v-if="posY > posY_ref" class="nav--fill"></div>
+    <div class="nav-placeholder" v-if="isFixed"></div>
     <div
       class="nav"
       :class="[
-        posY > posY_ref ? 'nav--fixed' : 'nav--static',
+        isFixed ? 'nav--fixed' : 'nav--static',
         theme.isDark ? 'nav--dark' : 'nav--light',
       ]"
     >
@@ -12,8 +12,10 @@
         <div class="nav__toolbar d-flex flex-column">
           <div class="d-flex justify-space-between ga-4 align-center mb-3">
             <NuxtLink to="/" class="d-flex align-center justify-end">
-              <img v-if="theme.isDark" src="/assets/img/logo_8.svg" class="nav__logo" />
-              <img v-else src="/assets/img/logo_8.svg" class="nav__logo" />
+              <img
+                src="~/assets/img/logo_8.svg"
+                class="nav__logo"
+              />
             </NuxtLink>
             <ButtonAddListing />
             <FormSearchListing class="flex-1-1" />
@@ -26,15 +28,16 @@
   </nav>
 </template>
 
+
 <script setup lang="ts">
 import anime from "animejs";
 const theme = useThemeStore();
 
-const posY = ref(0);
-const posY_ref = 0;
+const posY_ref = 100; // Seuil de scroll avant fixation
+const isFixed = ref(false);
 
 const handleScroll = () => {
-  posY.value = window.scrollY;
+  isFixed.value = window.scrollY > posY_ref;
 };
 
 onMounted(() => {
@@ -55,6 +58,7 @@ onUnmounted(() => {
   }
 });
 </script>
+
 
 <style lang="scss" scoped>
 .nav__logo {
@@ -101,37 +105,23 @@ onUnmounted(() => {
   height: 9rem;
   display: flex;
   align-items: flex-end;
+  transition: top 0.3s ease; // Transition pour un passage fluide
 }
 
 .nav--fixed {
-  position: static;
+  position: fixed;
   z-index: 20;
-
-  @media only screen and (max-width: 600px) {
-  }
-
-  @media only screen and (min-width: 600px) {
-    position: fixed;
-    overflow: hidden;
-    top: 0;
-  }
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .nav--static {
   position: static;
-
-  @media only screen and (min-width: 600px) {
-  }
-
-  @media only screen and (max-width: 600px) {
-  }
 }
 
-.nav--fill {
-  height: 9rem;
-
-  @media only screen and (max-width: 600px) {
-    display: none;
-  }
+.nav-placeholder {
+  height: 9rem; // Place un espace pour éviter le "saut" visuel
 }
 </style>
+

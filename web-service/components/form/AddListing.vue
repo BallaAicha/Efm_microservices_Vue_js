@@ -44,23 +44,25 @@
         </v-col>
 
         <!-- Category -->
-        <!-- <v-col cols="12">
+        <v-col cols="12" md="4">
           <v-select
-          v-model="listing.category"
-          :items="categories"
-          :rules="[rules.required]"
-          label="Catégorie"
-          variant="outlined"
+            v-model="listing.category"
+            :items="parentCategories"
+            item-value="id"
+            item-title="name"
+            :rules="[rules.required]"
+            label="Catégorie"
+            variant="outlined"
           ></v-select>
-        </v-col> -->
-        
+        </v-col>
+
         <!-- Category -->
-        <v-col cols="12">
+        <v-col cols="12" md="8">
           <v-select
             v-model="listing.category"
             clearable
             chips
-            label="Catégories"
+            label="Sous-catégories"
             :items="categoryStore.categories"
             item-value="id"
             item-title="name"
@@ -102,14 +104,24 @@
 
         <!-- Buttons -->
         <v-col>
-          <div class="d-flex flex-column flex-lg-row justify-end ga-3">
-            <v-btn class="" variant="flat" @click="resetValidation">
+          <div class="d-flex flex-column flex-lg-row justify-end ga-6">
+            <v-btn
+              class="text-none"
+              text="Annuler"
+              color="error"
+              variant="outlined"
+              append-icon="mdi-close"
+              @click="$emit('cancel')"
+            >
+            </v-btn>
+            <v-btn class="text-none" variant="outlined" @click="resetValidation">
               Effacer
             </v-btn>
             <v-btn
-              class=""
+              class="text-none"
               text="Suivant"
               color="primary"
+              flat
               append-icon="mdi-chevron-right"
               @click="addListing, $emit('next')"
             >
@@ -122,15 +134,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import type { ListingInterface } from "~/interfaces/listing/listing.interface";
-import categories from "~/data/categories.json";
-
-defineProps([]);
-defineEmits(["next"]);
 
 const categoryStore = useCategoryStore();
-categoryStore.fetchCategories();
+
+onMounted(async () => {
+  await categoryStore.fetchCategories();
+});
+
+const parentCategories = computed(() => categoryStore.parentCategories);
+
+defineProps([]);
+defineEmits(["next", "cancel"]);
 
 const listing = ref<ListingInterface>({
   id: "",
