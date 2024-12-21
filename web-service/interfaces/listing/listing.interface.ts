@@ -2,8 +2,8 @@ import type { CategoryInterface } from "./category.interface";
 
 // Listing
 export interface ListingInterface {
-  id: string; // UUID
-  userId: string; // UUID (relation avec User)
+  id?: string | undefined; // UUID
+  userId?: string | undefined; // UUID (relation avec User)
   title: string;
   description: string;
   category: CategoryInterface[];
