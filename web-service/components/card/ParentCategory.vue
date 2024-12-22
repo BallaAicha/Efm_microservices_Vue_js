@@ -1,33 +1,19 @@
 <template>
-  <v-card class="card" flat>
-    <div class="title">{{ props.category.name }}</div>
-    <img :src="photoUrl" />
-  </v-card>
+  <NuxtLink :to="`/categories/${category.name}`">
+    <v-card class="card" flat>
+      <div class="title">{{ props.category.name }}</div>
+      <img :src="photoStore.getRandomPhoto()" />
+    </v-card>
+  </NuxtLink>
 </template>
 
 <script lang="ts" setup>
 import type { CategoryInterface } from "~/interfaces/listing/category.interface";
-import photos from "~/data/photos.json";
-
+const photoStore = usePhotoStore();
 
 const props = defineProps<{
   category: CategoryInterface;
 }>();
-
-const getRandomPhoto = (photos: any): string => {
-  if (!photos || photos.length === 0) {
-    return '';
-  }
-
-  const randomIndex = Math.floor(Math.random() * photos.length);
-  return photos[randomIndex].source || '';
-};
-
-// Utilisation dans votre composant:
-const photoUrl = getRandomPhoto(photos);
-
-// Mise à jour du template:
-// <v-img :src="photoUrl" /></v-img>
 </script>
 
 <style lang="scss" scoped>
@@ -37,20 +23,28 @@ const photoUrl = getRandomPhoto(photos);
   border-radius: 0.5rem;
   cursor: pointer;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @extend %flex-center-el;
   overflow: hidden;
+  transition: ease all 0.3s;
+
+  &:hover {
+    transform: scale(0.9);
+  }
 
   .title {
     position: absolute;
     z-index: 10;
     text-align: center;
     bottom: 0rem;
-    padding-bottom: 0.5rem;
+    padding: 0.5rem 0 0.5rem 0.5rem;
     font-size: large;
     font-weight: 600;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.5), transparent);
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 0.5),
+      transparent
+    );
     color: $light;
     width: 100%;
   }

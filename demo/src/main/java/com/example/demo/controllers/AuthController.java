@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entities.User;
+import com.example.demo.entities.UserWithAddress;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,10 +36,10 @@ public class AuthController {
     public Map<String, Object> login(@RequestBody Map<String, String> payload) {
         logger.info("Tentative de connexion avec email : {}", payload);
         Map<String, Object> response = new HashMap<>();
-        
+
         String username = payload.get("username");
         String password = payload.get("password");
-        
+
         // Validation simplifiée
         if ("user@example.com".equals(username) && "password123".equals(password)) {
             response.put("access_token", TOKEN);
@@ -49,8 +50,40 @@ public class AuthController {
         }
         return response;
     }
-    
-    @PostMapping("/users") 
+
+    @GetMapping("/users/me")
+    public ResponseEntity<Map<String, Object>> getExampleUser() {
+        UserWithAddress exampleUser = new UserWithAddress(
+                "123e4567-e89b-12d3-a456-426614174000", // UUID
+                "example@example.com",
+                "John",
+                "Doe",
+                "+123456789",
+                null, // Password (undefined)
+                null, // Password confirmation (undefined)
+                4.5f, // Rating
+                "active",
+                new String[] {}, // Images array
+                null, // Image path
+                10, // Number of reviews
+                null, // Profile picture
+                new UserWithAddress.Address(
+                        "987e6543-e21a-12d3-a456-426614174111", // UUID
+                        "123 Main St",
+                        "42B",
+                        "12345",
+                        "Springfield",
+                        "USA"));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("user", exampleUser);
+        response.put("token", "User ok");
+
+        return ResponseEntity.ok(response);
+
+    }
+
+    @PostMapping("/users")
     public ResponseEntity<Object> addUser(@RequestBody User user) {
         logger.info("Tentative de connexion avec email : {}", user.getEmail());
 
@@ -68,7 +101,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorMessage);
         }
     }
-    
+
     // Méthode POST pour déconnexion
     @PostMapping("/logout")
     public ResponseEntity<?> logout(@RequestHeader("Authorization") String authorization) {

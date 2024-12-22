@@ -1,11 +1,11 @@
 <template>
   <v-card flat class="bg-transparent">
     <div class="profil d-flex flex-column ga-4 align-end justify-center">
-      <div v-if="props.user.profilePictureUrl" class="profile__img">
-        <img src="/assets/img/landscape.png" />
+      <div v-if="props.user.profilePicture" class="profile__img">
+        <img :src="photoStore.getRandomPhoto()" />
       </div>
       <div v-else class="profile__initial">
-        <img src="/assets/img/landscape.png" />
+        <img :src="photoStore.getRandomPhoto()" />
         <div class="initial__text">
           {{ getNameInitials(props.user.firstName + ' ' + props.user.lastName) }}
         </div>
@@ -29,10 +29,11 @@
 </template>
 
 <script lang="ts" setup>
-import type { UserInterface } from "~/interfaces/user/user.interface";
+const photoStore = usePhotoStore();
+import type { UserWithAddressInterface } from "~/interfaces/user/user.interface";
 
 const props = defineProps<{
-  user: UserInterface;
+  user: UserWithAddressInterface;
 }>();
 </script>
 
@@ -49,6 +50,7 @@ const props = defineProps<{
     border-radius: 50%;
     object-fit: cover;
     height: 100%;
+    width: 100%;
   }
 }
 

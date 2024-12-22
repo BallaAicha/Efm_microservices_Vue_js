@@ -7,7 +7,7 @@
     "password": "hashed_password",
     "rating": 4.5,
     "numberOfReviews": 20,
-    "profilePictureUrl": "https://example.com/profile/john.jpg"
+    "profilePicture": "https://example.com/profile/john.jpg"
   },
   {
     "id": "2",
@@ -17,6 +17,6 @@
     "password": "hashed_password",
     "rating": 4.8,
     "numberOfReviews": 35,
-    "profilePictureUrl": "https://example.com/profile/jane.jpg"
+    "profilePicture": "https://example.com/profile/jane.jpg"
   }
 ]

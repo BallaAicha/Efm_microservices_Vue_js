@@ -9,7 +9,14 @@ export const useMessageStore = defineStore("messageStore", {
   }),
   actions: {
     open(listing: ListingInterface) {
-      this.isOpen = true;
+      if (this.isOpen) {
+        this.close();
+        setTimeout(() => {
+          this.isOpen = true;
+        }, 1000);
+      } else {
+        this.isOpen = true;
+      }
       this.listing = listing;
     },
     close() {

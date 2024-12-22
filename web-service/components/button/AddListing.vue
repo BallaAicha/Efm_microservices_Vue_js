@@ -14,7 +14,7 @@
     </v-btn>
 
     <!-- Dialogue principal -->
-    <v-dialog v-model="createListing" persistent>
+    <v-dialog v-model="createListing" persistent width="600">
       <v-card flat>
         <!-- <v-toolbar class="px-5">
           <v-btn icon="mdi-close" @click="createListing = false"></v-btn>

@@ -6,7 +6,7 @@
       :class="!theme.isDark && 'bg-grey'"
     >
       <img src="/assets/img/swap_light.svg" class="nav__logo" />
-      <ButtonTheme />
+      <!-- <ButtonTheme /> -->
 
       <div class="text-center text-disabled pa-4">
         <p>Made with <v-icon icon="mdi-heart"></v-icon></p>

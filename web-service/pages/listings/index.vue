@@ -1,8 +1,13 @@
 <template>
-  <v-container class="d-flex flex-column ga-4">
-    <FormSelectCategory />
-    <FormSelectCategory2 />
+  <v-container>
+    <UiLastListing />
   </v-container>
 </template>
 
-<style lang="scss" scoped></style>
+<script lang="ts" setup>
+import listings from "~/data/listings.json";
+</script>
+
+<style lang="scss" scoped>
+
+</style>

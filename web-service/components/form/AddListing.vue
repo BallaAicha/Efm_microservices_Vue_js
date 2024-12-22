@@ -168,8 +168,8 @@ const listing = ref<ListingInterface>({
   location: "",
   condition: "NEW",
   status: "ACTIVE",
-  createdAt: undefined,
-  updatedAt: undefined,
+  createdAt: new Date,
+  updatedAt: new Date,
 });
 
 // Réinitialiser le formulaire
@@ -185,8 +185,8 @@ const resetValidation = () => {
     location: "",
     condition: "NEW",
     status: "ACTIVE",
-    createdAt: undefined,
-    updatedAt: undefined,
+    createdAt: new Date,
+    updatedAt: new Date,
   };
 };
 

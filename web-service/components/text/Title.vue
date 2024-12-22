@@ -16,7 +16,7 @@ const themeStore = useThemeStore()
 <style lang="scss" scoped>
 .title {
     font-size: clamp(0.5rem, 5vw, 1.5rem);
-    font-weight: 600;
+    // font-weight: 600;
     // margin-bottom: 2rem;
     // background-size: 100%;
     // background-clip: text;
