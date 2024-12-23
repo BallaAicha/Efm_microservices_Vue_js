@@ -5,8 +5,9 @@
       class="footer__elements d-flex flex-column"
       :class="!theme.isDark && 'bg-grey'"
     >
-      <img src="/assets/img/swap_light.svg" class="nav__logo" />
-      <ButtonTheme />
+      <img src="/assets/img/logo.svg" class="nav__logo" />
+       <!-- <AnimationLogo /> -->
+      <!-- <ButtonTheme /> -->
 
       <div class="text-center text-disabled pa-4">
         <p>Made with <v-icon icon="mdi-heart"></v-icon></p>
@@ -85,7 +86,7 @@ p {
 }
 
 .nav__logo {
-  height: 4rem;
+  height: 5rem;
   margin: 1rem;
 }
 </style>

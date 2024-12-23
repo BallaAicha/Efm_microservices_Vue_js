@@ -21,7 +21,7 @@
           <v-toolbar-title>Nouvelle annonce</v-toolbar-title>
         </v-toolbar> -->
         <div class="d-flex align-center justify-center pt-6">
-          <img src="/assets/img/logo_8.svg" class="nav__logo" />
+          <img src="/assets/img/logo.svg" class="nav__logo" />
         </div>
 
         <!-- Formulaires -->

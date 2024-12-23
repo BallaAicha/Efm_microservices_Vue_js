@@ -1,18 +1,31 @@
 <template>
   <div class="d-flex align-center">
-    <NuxtLink v-for="l in links" :key="l.title" :to="l.link">
+    <NuxtLink :to="`/users/${user?.firstName}_${user?.lastName}/favoris`">
       <v-btn
-        :prepend-icon="l.icon"
+        prepend-icon="mdi-heart"
         variant="plain"
         stacked
         size="small"
         class="text-none"
         :ripple="false"
       >
-        {{ l.title }}
+        Favoris
       </v-btn>
     </NuxtLink>
-    <NuxtLink :to="`/users/${user?.id}`">
+    <NuxtLink :to="`/users/${user?.firstName}_${user?.lastName}/messages`">
+      <v-btn
+        prepend-icon="mdi-message-processing"
+        variant="plain"
+        stacked
+        size="small"
+        class="text-none"
+        :ripple="false"
+      >
+        Messages
+      </v-btn>
+    </NuxtLink>
+
+    <NuxtLink :to="`/users/${user?.firstName}_${user?.lastName}`">
       <v-btn
         prepend-icon="mdi-account"
         variant="plain"
@@ -24,6 +37,7 @@
         {{ user?.firstName }}
       </v-btn>
     </NuxtLink>
+
     <v-btn
       prepend-icon="mdi-logout"
       variant="plain"
@@ -39,8 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import links from "~/data/links.json";
-import { useAuthStore } from "~/stores/auth"; 
+import { useAuthStore } from "~/stores/auth";
 
 const { user } = storeToRefs(useAuthStore()); // make authenticated state reactive with storeToRefs
 

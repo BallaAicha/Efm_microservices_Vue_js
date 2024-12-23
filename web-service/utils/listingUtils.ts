@@ -11,8 +11,8 @@ export function emptyListing(): ListingInterface {
     isExchangeable: false,
     location: "",
     condition: "NEW", // Valeur par défaut
-    createdAt: undefined,
-    updatedAt: undefined,
+    createdAt: new Date,
+    updatedAt: new Date,
     status: "ACTIVE" // Valeur par défaut
   };
 }

@@ -7,7 +7,8 @@
           activator="parent"
           location="bottom center"
           transition="fade-transition"
-          :open-on-hover="true"
+          open-on-hover
+          close-on-content-click
         >
           <CardCategory
             :title="category.name"

@@ -1,0 +1,3 @@
+<template>
+  <UiInbox />
+</template>

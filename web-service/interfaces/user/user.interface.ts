@@ -10,7 +10,7 @@ export interface UserInterface {
   passwordConfirmation?: string;
   rating: number; // Float
   numberOfReviews: number;
-  profilePictureUrl?: string;
+  profilePicture?: string;
 }
 
 export interface UserWithAddressInterface {
@@ -24,9 +24,9 @@ export interface UserWithAddressInterface {
   rating: number; // Float
   status: string;
   images: [];
-  imagaPath: string | null;
+  imagePath: string | null;
   numberOfReviews: number;
-  profilePicture?: string | null;
+  profilePicture: string | null;
   address: {
     id: string,
     street: string,

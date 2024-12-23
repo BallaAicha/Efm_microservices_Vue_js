@@ -14,39 +14,14 @@
 <script lang="ts" setup>
 import type { UserWithAddressInterface } from "~/interfaces/user/user.interface";
 import { getUser } from "~/api/userApi";
+import { emptyUserWithAddress } from "~/utils/userUtils";
 
-// const userId = useRoute().params.userId as string;
-
-// Utilisateur
-const user = ref<UserWithAddressInterface>({
-  id: "", // UUID
-  email: "",
-  firstName: "",
-  lastName: "",
-  phoneNumber: "",
-  password: undefined,
-  passwordConfirmation: undefined,
-  rating: 0, // Float
-  status: "",
-  images: [],
-  imagaPath: null,
-  numberOfReviews: 0,
-  profilePicture: null,
-  address: {
-    id: "", // UUID
-    street: "",
-    houseNumber: "",
-    postalCode: "",
-    city: "",
-    country: "",
-  },
-});
-
+const user = ref<UserWithAddressInterface>(emptyUserWithAddress())
 
 const fetchUserData = async () => {
   try {
     const data = await getUser();
-    user.value = data.user;
+    user.value = data;
   } catch (error) {
     console.error("Erreur lors de la récupération des données :", error);
   }

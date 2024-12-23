@@ -19,5 +19,5 @@ public class User {
     private String passwordConfirmation;
     private double rating;
     private int numberOfReviews;
-    private String profilePictureUrl;
+    private String profilePicture;
 }

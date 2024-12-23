@@ -1,22 +1,14 @@
 <template>
   <nav>
-    <div class="nav-placeholder" v-if="isFixed"></div>
-    <div
-      class="nav"
-      :class="[
-        isFixed ? 'nav--fixed' : 'nav--static',
-        theme.isDark ? 'nav--dark' : 'nav--light',
-      ]"
-    >
+    <div class="nav" :class="[theme.isDark ? 'nav--dark' : 'nav--light']">
       <v-container>
         <div class="nav__toolbar d-flex flex-column">
           <div class="d-flex justify-space-between ga-4 align-center mb-3">
-            <NuxtLink to="/" class="d-flex align-center justify-end">
-              <img
-                src="~/assets/img/logo_8.svg"
-                class="nav__logo"
-              />
+            <NuxtLink to="/" class="d-flex align-center">
+              <!-- <AnimationLogoVariant /> -->
+              <img src="~/assets/img/logo.svg" class="nav__logo" />
             </NuxtLink>
+            <ButtonTheme />
             <ButtonAddListing />
             <FormSearchListing class="flex-1-1" />
             <NavbarTool />
@@ -28,42 +20,25 @@
   </nav>
 </template>
 
-
 <script setup lang="ts">
-import anime from "animejs";
+// import anime from "animejs";
 const theme = useThemeStore();
 
-const posY_ref = 100; // Seuil de scroll avant fixation
-const isFixed = ref(false);
-
-const handleScroll = () => {
-  isFixed.value = window.scrollY > posY_ref;
-};
-
-onMounted(() => {
-  if (import.meta.client) {
-    window.addEventListener("scroll", handleScroll);
-  }
-  anime({
-    targets: ".nav__logo",
-    opacity: [0, 1],
-    translateX: [-200, 0],
-    delay: anime.stagger(100),
-  });
-});
-
-onUnmounted(() => {
-  if (import.meta.client) {
-    window.removeEventListener("scroll", handleScroll);
-  }
-});
+// onMounted(() => {
+//   anime({
+//     targets: ".nav__logo",
+//     opacity: [0, 1],
+//     translateX: [-200, 0],
+//     delay: anime.stagger(100),
+//   });
+// });
 </script>
-
 
 <style lang="scss" scoped>
 .nav__logo {
-  width: 5.5rem;
-  opacity: 0;
+  height: 100%;
+  width: 4rem;
+  opacity: 1;
 }
 
 .nav--light {
@@ -124,4 +99,3 @@ onUnmounted(() => {
   height: 9rem; // Place un espace pour éviter le "saut" visuel
 }
 </style>
-

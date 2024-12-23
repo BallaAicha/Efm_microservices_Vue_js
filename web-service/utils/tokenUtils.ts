@@ -12,7 +12,7 @@ export function mapTokenToUser(token: string): UserInterface {
     phoneNumber: decodedToken.phoneNumber || "",
     rating: parseFloat(decodedToken.rating) || 0.0,
     numberOfReviews: decodedToken.numberOfViews || 0,
-    profilePictureUrl: decodedToken.picture || undefined, // Si vous avez une URL de photo dans le token
+    profilePicture: decodedToken.picture || undefined, // Si vous avez une URL de photo dans le token
   };
 
   return user;

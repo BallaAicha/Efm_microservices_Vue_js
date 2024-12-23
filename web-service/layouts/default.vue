@@ -9,7 +9,7 @@
     >
       <div class="drawer__content">
         <div class="d-flex align-center justify-space-between pa-4">
-          <img src="~/assets/img/logo_8.svg" class="nav__menu" />
+          <img src="~/assets/img/logo.svg" class="nav__menu" />
           <v-btn
             @click="drawer = false"
             variant="flat"
@@ -32,7 +32,7 @@
             class="drawer__btn--open"
           ></v-btn>
           <NuxtLink to="/" class="d-flex align-center">
-            <img src="~/assets/img/logo_8.svg" class="nav__logo" />
+            <img src="~/assets/img/logo.svg" class="nav__logo" />
           </NuxtLink>
         </div>
         <FormSearchListing class="flex-1-1" />
@@ -40,7 +40,10 @@
     </div>
 
     <!-- Header pour les écrans desktop -->
-    <TheHeader v-else class="navigation__desktop" />
+    <div v-else>
+      <TheHeader class="header-fixed" />
+      <TheHeader class="header-static" />
+    </div>
 
     <!-- Contenu principal -->
     <v-main class="pt-6">
@@ -51,7 +54,6 @@
     <TheFooter />
   </v-app>
 </template>
-
 
 <script setup lang="ts">
 import { useDisplay } from "vuetify";
@@ -67,8 +69,21 @@ const drawer = ref(false);
 // Détection des écrans mobiles
 const { mdAndDown } = useDisplay();
 const isMobile = ref(mdAndDown); // `mdAndDown` est vrai pour les écrans "medium" et inférieurs
-</script>
 
+const isScrolled = ref(false);
+
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 100; // Affiche le header fixe après 100px de défilement
+};
+
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
+</script>
 
 <style lang="scss" scoped>
 .nav__logo {
@@ -98,5 +113,27 @@ const isMobile = ref(mdAndDown); // `mdAndDown` est vrai pour les écrans "mediu
 .drawer__btn--close {
   margin-left: auto;
 }
-</style>
 
+/* Style pour le header statique */
+.header-static {
+  z-index: 1;
+}
+
+/* Style pour le header fixe */
+.header-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  // transform: translateY(-100%);
+  // opacity: 0;
+  // transition: all 0.3s ease-in-out;
+  z-index: 10;
+}
+
+/* Quand le header fixe est visible */
+.header-fixed.header-visible {
+  // transform: translateY(0);
+  // opacity: 1;
+}
+</style>
