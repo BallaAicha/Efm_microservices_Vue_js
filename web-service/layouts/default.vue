@@ -9,7 +9,7 @@
     >
       <div class="drawer__content">
         <div class="d-flex align-center justify-space-between pa-4">
-          <img src="~/assets/img/logo_8.svg" class="nav__menu" />
+          <img src="~/assets/img/logo.svg" class="nav__menu" />
           <v-btn
             @click="drawer = false"
             variant="flat"
@@ -32,7 +32,7 @@
             class="drawer__btn--open"
           ></v-btn>
           <NuxtLink to="/" class="d-flex align-center">
-            <img src="~/assets/img/logo_8.svg" class="nav__logo" />
+            <img src="~/assets/img/logo.svg" class="nav__logo" />
           </NuxtLink>
         </div>
         <FormSearchListing class="flex-1-1" />

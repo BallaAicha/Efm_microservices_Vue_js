@@ -14,14 +14,14 @@
     </v-btn>
 
     <!-- Dialogue principal -->
-    <v-dialog v-model="createListing" persistent width="600">
+    <v-dialog v-model="createListing" persistent>
       <v-card flat>
         <!-- <v-toolbar class="px-5">
           <v-btn icon="mdi-close" @click="createListing = false"></v-btn>
           <v-toolbar-title>Nouvelle annonce</v-toolbar-title>
         </v-toolbar> -->
         <div class="d-flex align-center justify-center pt-6">
-          <img src="/assets/img/logo_8.svg" class="nav__logo" />
+          <img src="/assets/img/logo.svg" class="nav__logo" />
         </div>
 
         <!-- Formulaires -->
