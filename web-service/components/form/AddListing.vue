@@ -172,12 +172,12 @@ onMounted(async () => {
 const listing = ref<ListingInterface>({
   id: "",
   userId: "",
-  title: "Iphone XS",
-  description: "Apple",
+  title: "",
+  description: "",
   category: [], // Tableau des catégories sélectionnées
-  price: 23,
+  price: 0,
   isExchangeable: false,
-  location: "Rabat",
+  location: "",
   condition: "NEW",
   status: "ACTIVE",
   createdAt: new Date(),
