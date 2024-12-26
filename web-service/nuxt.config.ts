@@ -23,6 +23,7 @@ export default defineNuxtConfig({
     public: {
       apiUrl: process.env.API_URL,
       apiUrlCategory: process.env.API_URL_CATEGORY,
+      apiUrlListing: process.env.API_URL_LISTING,
     },
   },
   vite: {

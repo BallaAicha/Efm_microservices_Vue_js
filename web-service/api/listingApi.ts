@@ -4,7 +4,7 @@ const getConfig = () => {
   const config = useRuntimeConfig();
   const token = useCookie("token");
   return {
-    apiUrl: config.public.apiUrl + '/api',
+    apiUrl: config.public.apiUrlListing + '/api',
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token.value}`,
