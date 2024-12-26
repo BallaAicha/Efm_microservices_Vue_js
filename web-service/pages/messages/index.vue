@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="chat-container">
+    <!-- <div class="chat-container">
       <h1>Conversation</h1>
       <div class="messages">
         <div v-for="(msg, index) in messages" :key="index" class="message">
@@ -11,60 +11,12 @@
         <input v-model="newMessage" @keyup.enter="sendMessage" placeholder="Type your message..." />
         <button @click="sendMessage">Envoyer</button>
       </div>
-    </div>
+    </div> -->
   </v-container>
 </template>
 
 <script setup lang="ts">
-const messages = ref<string[]>([]);
-const newMessage = ref<string>("");
-let socket: WebSocket | null = null;
 
-const connectWebSocket = () => {
-  socket = new WebSocket("ws://localhost:6700/ws");
-
-  socket.onopen = () => console.log("WebSocket connected");
-  socket.onmessage = (event) => {
-    messages.value.push(event.data);
-  };
-  socket.onerror = (error) => console.error("WebSocket error:", error);
-  socket.onclose = () => console.log("WebSocket disconnected");
-};
-
-const sendMessage = () => {
-  if (socket && newMessage.value.trim()) {
-    socket.send(newMessage.value);
-    newMessage.value = "";
-  }
-};
-
-onMounted(connectWebSocket);
-onBeforeUnmount(() => {
-  if (socket) {
-    socket.close();
-  }
-});
-
-// const socket = new WebSocket("ws://localhost:6700/ws");
-
-// onMounted(() => {
-//   socket.onopen = () => {
-//     console.log("WebSocket connection established");
-//     socket.send("Hello Server!");
-//   };
-
-//   socket.onmessage = (event) => {
-//     console.log("Message from server:", event.data);
-//   };
-
-//   socket.onerror = (error) => {
-//     console.error("WebSocket error:", error);
-//   };
-
-//   socket.onclose = () => {
-//     console.log("WebSocket connection closed");
-//   };
-// });
 </script>
 
 <style scoped>
