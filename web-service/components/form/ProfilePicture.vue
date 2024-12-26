@@ -1,6 +1,11 @@
 <template>
   <label for="file" class="custum-file-upload">
-    <div class="icon">
+    <!-- Si une image est sélectionnée, l'afficher -->
+    <div v-if="preview" class="preview-image">
+      <img :src="preview" alt="Prévisualisation de l'image" />
+    </div>
+    <!-- Icône par défaut si aucune image n'est sélectionnée -->
+    <div v-else class="icon">
       <svg viewBox="0 0 24 24" fill="" xmlns="http://www.w3.org/2000/svg">
         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
         <g
@@ -18,31 +23,43 @@
         </g>
       </svg>
     </div>
-    <!-- <div class="text">
-      <span>Changer la photo</span>
-    </div> -->
-    <input id="file" type="file" />
+    <input id="file" type="file" @change="handleFileUpload" />
   </label>
 </template>
 
-<style lang="scss" scss>
-/* From Uiverse.io by csemszepp */
+<script setup lang="ts">
+import { ref } from "vue";
+
+const preview = ref<string | null>(null);
+
+const handleFileUpload = (event: Event) => {
+  const file = (event.target as HTMLInputElement)?.files?.[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      preview.value = e.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
+};
+</script>
+
+<style lang="scss" scoped>
 .custum-file-upload {
   height: 12rem;
   aspect-ratio: 1/1;
-//   width: 300px;
   display: flex;
-  flex-direction: column;
-  align-items: space-between;
-  gap: 20px;
+  // flex-direction: column;
+  // gap: 20px;
   cursor: pointer;
   align-items: center;
   justify-content: center;
   border: 2px dashed $primary;
-  // background-color: $surface;
-  padding: 1.5rem;
+  // padding: 1.5rem;
   border-radius: 50%;
-  text-align: center;
+  overflow: hidden;
+  // text-align: center;
+  position: relative;
 }
 
 .custum-file-upload .icon {
@@ -56,15 +73,14 @@
   fill: $primary;
 }
 
-.custum-file-upload .text {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.custum-file-upload .text span {
-  font-weight: 400;
-  // color: #e8e8e8;
+.custum-file-upload .preview-image img {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  // border-radius: 50%;
 }
 
 .custum-file-upload input {

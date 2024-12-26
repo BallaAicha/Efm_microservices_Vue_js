@@ -53,9 +53,12 @@ const props = defineProps<{
   display: flex;
   align-items: center;
   justify-content: center;
+  // border: 2px solid $primary;
+  border-radius: 50%;
+  overflow: hidden;
 
   img {
-    border-radius: 50%;
+    // border-radius: 50%;
     object-fit: cover;
     height: 100%;
     width: 100%;
