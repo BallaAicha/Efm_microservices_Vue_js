@@ -146,12 +146,15 @@ const props = defineProps<{
   user: UserWithAddressInterface;
 }>();
 
+const emit = defineEmits(["edit"])
+
 const showPassword = ref(false);
 const isEditMode = ref(false);
 
 // Fonction pour basculer entre lecture et édition
 const switchEditMode = () => {
   isEditMode.value = !isEditMode.value;
+  emit("edit")
 
   // Si on annule, réinitialiser les champs de mot de passe
   if (!isEditMode.value) {

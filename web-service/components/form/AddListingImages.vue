@@ -1,5 +1,6 @@
 <template>
   <div class="pa-6">
+    <div class="text-h5 mb-4">{{ props.listing?.title }}</div>
     <v-form>
       <v-row>
         <!-- Images -->
@@ -67,52 +68,15 @@ import type {
   ListingInterface,
   ListingImgInterface,
 } from "~/interfaces/listing/listing.interface";
-import categories from "~/data/categories.json";
 
-defineProps([]);
-defineEmits(["add", "cancel"]);
+const props = defineProps<{
+  listing: ListingInterface;
+}>();
 
-const listing = ref<ListingInterface>({
-  id: "",
-  userId: "",
-  title: "",
-  description: "",
-  category: [],
-  price: 0,
-  isExchangeable: false,
-  location: "",
-  condition: "NEW",
-  status: "ACTIVE",
-  createdAt: undefined,
-  updatedAt: undefined,
-});
+const emit = defineEmits(["cancel", "add"]);
+
 
 const previews = ref<string[]>([]);
-
-const rules = {
-  required: (v: any) => !!v || "Ce champ est requis",
-  maxLength: (length: number) => (v: string) =>
-    !v || v.length <= length || `Maximum ${length} caractères`,
-  positiveNumber: (v: number) => v > 0 || "Le nombre doit être positif",
-};
-
-const resetValidation = () => {
-  previews.value = [];
-  listing.value = {
-    id: "",
-    userId: "",
-    title: "",
-    description: "",
-    category: [],
-    price: 0,
-    isExchangeable: false,
-    location: "",
-    condition: "NEW",
-    status: "ACTIVE",
-    createdAt: undefined,
-    updatedAt: undefined,
-  };
-};
 
 const handleFileChange = (event: Event) => {
   const input = event.target as HTMLInputElement;
@@ -132,8 +96,16 @@ const handleFileChange = (event: Event) => {
   }
 };
 
-const addListing = () => {
-  console.log("Listing ajouté :", listing.value);
+// Fonction pour ajouter des images
+// const handleAddImages = async (imagesData) => {
+const handleAddImages = async () => {
+  try {
+    // Supposons que vous ayez une fonction pour envoyer les images à l'API
+    // await addImagesToListing(props.listingId, imagesData); 
+    emit("add"); // Déclencher l'événement 'add' une fois les images envoyées
+  } catch (err) {
+    console.error("Erreur lors de l'ajout des images :", err);
+  }
 };
 </script>
 

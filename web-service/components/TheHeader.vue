@@ -21,6 +21,8 @@
 </template>
 
 <script setup lang="ts">
+import type { UserInterface } from '~/interfaces/user/user.interface';
+
 // import anime from "animejs";
 const theme = useThemeStore();
 

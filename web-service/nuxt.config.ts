@@ -18,7 +18,6 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxtjs/google-fonts",
     "@hypernym/nuxt-anime",
-    "nuxt-aos",
   ],
   runtimeConfig: {
     public: {

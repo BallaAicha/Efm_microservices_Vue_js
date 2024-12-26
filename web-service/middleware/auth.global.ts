@@ -3,11 +3,14 @@ import { useMessageStore } from "../stores/message";
 export default defineNuxtRouteMiddleware(async (to) => {
   const { authenticated } = storeToRefs(useAuthStore()); // Reactive store state
   const { initializeStore } = useAuthStore();
+  // const { user } = storeToRefs(useAuthStore());
   const messageStore = useMessageStore();
 
   await initializeStore();
 
   if (to?.name === "messages") {
+    //TODO add user.name
+    // console.log(user.value?.firstName + '_' + user.value?.lastName + 'messages');
     messageStore.close(); // Fermer le message d'erreur si ouvert
   }
 

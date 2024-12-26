@@ -18,3 +18,11 @@ server:
   port: 6700
   # servlet:
   #   context-path: /demo
+
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          socket: DEBUG
+        messaging: DEBUG

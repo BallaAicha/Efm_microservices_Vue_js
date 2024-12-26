@@ -3,7 +3,7 @@
     <!-- <AnimationBars id="footer__bars" class="d-none d-md-block" /> -->
     <v-footer
       class="footer__elements d-flex flex-column"
-      :class="!theme.isDark && 'bg-grey'"
+      :class="!theme.isDark && ''"
     >
       <img src="/assets/img/logo.svg" class="nav__logo" />
        <!-- <AnimationLogo /> -->
@@ -28,6 +28,7 @@ const theme = useThemeStore();
 footer {
   position: relative;
   overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
 
   #footer__bars,
   #footer__waves {

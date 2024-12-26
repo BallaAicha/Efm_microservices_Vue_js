@@ -1,128 +1,89 @@
-import type {
-  ListingInterface,
-  ListingImgInterface,
-} from "~/interfaces/listing/listing.interface";
+import type { ListingInterface } from "~/interfaces/listing/listing.interface";
 
-export const getListings = async (): Promise<ListingInterface> => {
+const getConfig = () => {
+  const config = useRuntimeConfig();
+  const token = useCookie("token");
+  return {
+    apiUrl: config.public.apiUrl + '/api',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token.value}`,
+    },
+  };
+};
+
+export const getListings = async (): Promise<ListingInterface[]> => {
   try {
-    const config = useRuntimeConfig();
-    const token = useCookie("token");
+    const { apiUrl, headers } = getConfig();
 
-    const response = await $fetch<ListingInterface>(
-      `${config.public.apiUrl}/listings`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token.value}`,
-        },
-      }
-    );
-
-    return response as ListingInterface;
-  } catch (err) {
-    console.error("Erreur lors de la requête.", err);
-    throw err;
+    return await $fetch<ListingInterface[]>(`${apiUrl}/listings`, {
+      method: "GET",
+      headers,
+    });
+  } catch (err: any) {
+    console.error("Erreur lors de la récupération des listings :", err);
+    throw new Error(err?.data?.message || "Erreur inconnue");
   }
 };
 
 export const getListing = async (id: number): Promise<ListingInterface> => {
   try {
-    const config = useRuntimeConfig();
-    const token = useCookie("token");
+    const { apiUrl, headers } = getConfig();
 
-    const response = await $fetch<any>(
-      `${config.public.apiUrl}/listings/${id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token.value}`,
-        },
-      }
-    );
-
-    return response.data as ListingInterface;
-  } catch (err) {
-    console.error("Erreur lors de la requête.", err);
-    throw err;
+    return await $fetch<ListingInterface>(`${apiUrl}/listings/${id}`, {
+      method: "GET",
+      headers,
+    });
+  } catch (err: any) {
+    console.error(`Erreur lors de la récupération du listing avec l'ID ${id}:`, err);
+    throw new Error(err?.data?.message || "Erreur inconnue");
   }
 };
 
 export const addListing = async (
-  data: ListingInterface,
+  data: ListingInterface
 ): Promise<ListingInterface> => {
   try {
-    const config = useRuntimeConfig();
-    const token = useCookie("token");
+    const { apiUrl, headers } = getConfig();
 
-    const response = await $fetch<any>(`${config.public.apiUrl}/products`, {
+    return await $fetch<ListingInterface>(`${apiUrl}/listings`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token.value}`,
-      },
-      body: {
-        description: data.description,
-        // Attributs listing
-      },
+      headers,
+      body: data,
     });
-
-    return response.data as ListingInterface;
-  } catch (err) {
-    console.error("Erreur lors de la requête.", err);
-    throw err;
+  } catch (err: any) {
+    console.error("Erreur lors de l'ajout d'un listing :", err);
+    throw new Error(err?.data?.message || "Erreur inconnue");
   }
 };
 
 export const editListing = async (
-  data: ListingInterface,
+  data: ListingInterface
 ): Promise<ListingInterface> => {
   try {
-    const config = useRuntimeConfig();
-    const token = useCookie("token");
+    const { apiUrl, headers } = getConfig();
 
-    const response = await $fetch<any>(
-      `${config.public.apiUrl}/listings/${data.id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token.value}`,
-        },
-        body: {
-          description: data.description,
-          // Attributs listing
-        },
-      }
-    );
-
-    return response.data as ListingInterface;
-  } catch (err) {
-    console.error("Erreur lors de la requête.", err);
-    throw err;
+    return await $fetch<ListingInterface>(`${apiUrl}/listings/${data.id}`, {
+      method: "PUT",
+      headers,
+      body: data,
+    });
+  } catch (err: any) {
+    console.error(`Erreur lors de la mise à jour du listing avec l'ID ${data.id}:`, err);
+    throw new Error(err?.data?.message || "Erreur inconnue");
   }
 };
 
-export const deleteListing = async (id: number): Promise<ListingInterface> => {
+export const deleteListing = async (id: number): Promise<void> => {
   try {
-    const config = useRuntimeConfig();
-    const token = useCookie("token");
+    const { apiUrl, headers } = getConfig();
 
-    const response = await $fetch<any>(
-      `${config.public.apiUrl}/listings/${id}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token.value}`,
-        },
-      }
-    );
-
-    return response.data as ListingInterface;
-  } catch (err) {
-    console.error("Erreur lors de la requête.", err);
-    throw err;
+    await $fetch<void>(`${apiUrl}/listings/${id}`, {
+      method: "DELETE",
+      headers,
+    });
+  } catch (err: any) {
+    console.error(`Erreur lors de la suppression du listing avec l'ID ${id}:`, err);
+    throw new Error(err?.data?.message || "Erreur inconnue");
   }
 };

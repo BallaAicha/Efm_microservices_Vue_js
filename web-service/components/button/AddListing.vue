@@ -16,10 +16,6 @@
     <!-- Dialogue principal -->
     <v-dialog v-model="createListing" persistent>
       <v-card flat>
-        <!-- <v-toolbar class="px-5">
-          <v-btn icon="mdi-close" @click="createListing = false"></v-btn>
-          <v-toolbar-title>Nouvelle annonce</v-toolbar-title>
-        </v-toolbar> -->
         <div class="d-flex align-center justify-center pt-6">
           <img src="/assets/img/logo.svg" class="nav__logo" />
         </div>
@@ -27,13 +23,16 @@
         <!-- Formulaires -->
         <FormAddListing
           v-show="!createListingPhotos"
-          @next="proceedToPhotos"
           @cancel="createListing = false"
-          />
-          <FormAddListingPhotos
+          @add="handleAddListing"
+        />
+
+        <!-- Passer l'ID de l'annonce à FormAddListingImages -->
+        <FormAddListingImages
           v-show="createListingPhotos"
-          @add="submitListing"
+          :listing="listingResponse!"
           @cancel="createListing = false"
+          @add="submitImages"
         />
       </v-card>
     </v-dialog>
@@ -59,11 +58,14 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { addListing } from "~/api/listingApi";
+import type { ListingInterface } from "~/interfaces/listing/listing.interface";
 
 const createListing = ref(false);
 const createListingPhotos = ref(false);
 const loading = ref(false);
 const notification = ref(false);
+const listingResponse = ref<ListingInterface | null>(null); // Variable pour stocker l'ID de l'annonce
 
 // Fonction pour ouvrir le dialogue principal
 const openCreateListing = () => {
@@ -86,14 +88,36 @@ const closeDialog = () => {
 const proceedToPhotos = () => {
   loading.value = true;
   setTimeout(() => {
-    loading.value = false;
     createListingPhotos.value = true;
+    loading.value = false;
   }, 2000); // Simule un délai de 2 secondes
 };
 
-// Soumettre l'annonce finale
-const submitListing = () => {
-  closeDialog();
+// Handler pour l'ajout de l'annonce
+const handleAddListing = async (listingData: ListingInterface) => {
+  try {
+    // Appeler la fonction addListing pour ajouter l'annonce
+    const response = await addListing(listingData);
+    listingResponse.value = response; // Enregistrer l'ID de l'annonce
+    proceedToPhotos(); // Transition vers l'ajout des images
+  } catch (err) {
+    console.error("Erreur lors de l'ajout de l'annonce :", err);
+  }
+};
+
+// Soumettre les images
+const submitImages = async (imagesData: any) => {
+  try {
+    if (listingResponse.value !== null) {
+      // Appeler une fonction qui enverra les images pour l'annonce
+      // await addImagesToListing(listingId.value, imagesData); // Supposons que vous ayez une fonction pour ajouter des images
+      closeDialog();
+    } else {
+      console.error("ID de l'annonce manquant.");
+    }
+  } catch (err) {
+    console.error("Erreur lors de l'ajout des images :", err);
+  }
 };
 
 // Réinitialiser tous les états
