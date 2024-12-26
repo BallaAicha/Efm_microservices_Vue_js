@@ -70,7 +70,7 @@ const computedStyle = computed(() => {
 
 const router = useRouter();
 function goToListing() {
-  router.push(`categories/${props.listing.category[0].name}/listings/${props.listing?.title}`);
+  router.push(`/categories/${props.listing.category[0].name}/listings/${props.listing?.title}`);
 }
 </script>
 
