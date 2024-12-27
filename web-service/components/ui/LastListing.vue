@@ -2,7 +2,7 @@
   <section>
     <div class="text-h4 mb-4">Toutes les annonces</div>
     <div class="container-listing">
-      <CardListingVariant
+      <CardListingLast
         v-for="listing in listings"
         :key="listing.id"
         class="listing--card"

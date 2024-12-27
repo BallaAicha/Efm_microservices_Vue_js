@@ -27,7 +27,7 @@
           ></v-icon>
         </div>
         <div class="text-body-2">{{ listing.location }}</div>
-        <div class="text-caption">{{ formatDate(listing.createdAt) }}</div>
+        <div class="text-caption">{{ formatDate(listing.updatedAt) }}</div>
       </div>
       
     <div class="card__action d-flex align-center justify-space-between ga-2">
