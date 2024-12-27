@@ -75,7 +75,7 @@ const { loading, error } = storeToRefs(useAuthStore()); // make authenticated st
 const showPassword = ref(false);
 
 const user = ref({
-  username: "user@example.com",
+  username: "fernando@gmail.com",
   password: "password123",
 });
 </script>

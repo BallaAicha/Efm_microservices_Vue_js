@@ -4,7 +4,7 @@
     "userId": "101",
     "title": "Laptop Dell Inspiron",
     "description": "High-performance laptop suitable for gaming and work.",
-    "category": [
+    "categories": [
       { "id": "1", "name": "Electronics", "description": "Electronic devices" },
       { "id": "2", "name": "Computers", "description": "Desktops and laptops", "parentCategoryId": "1" }
     ],
@@ -21,7 +21,7 @@
     "userId": "102",
     "title": "Mountain Bike",
     "description": "Lightweight mountain bike perfect for trails.",
-    "category": [
+    "categories": [
       { "id": "3", "name": "Sports", "description": "Sports equipment" },
       { "id": "4", "name": "Cycling", "description": "Bikes and accessories", "parentCategoryId": "3" }
     ],
@@ -38,7 +38,7 @@
     "userId": "103",
     "title": "Vintage Sofa",
     "description": "Stylish vintage sofa in excellent condition.",
-    "category": [
+    "categories": [
       { "id": "5", "name": "Furniture", "description": "Household furniture" }
     ],
     "price": 600.00,
@@ -54,7 +54,7 @@
     "userId": "104",
     "title": "Smartphone Samsung Galaxy S21",
     "description": "Latest model, unlocked, and in perfect condition.",
-    "category": [
+    "categories": [
       { "id": "1", "name": "Electronics", "description": "Electronic devices" },
       { "id": "6", "name": "Mobile Phones", "description": "Smartphones and accessories", "parentCategoryId": "1" }
     ],
@@ -71,7 +71,7 @@
     "userId": "105",
     "title": "Electric Guitar Fender Stratocaster",
     "description": "Great sound quality, includes amplifier.",
-    "category": [
+    "categories": [
       { "id": "7", "name": "Music", "description": "Musical instruments" },
       { "id": "8", "name": "Guitars", "description": "Electric and acoustic guitars", "parentCategoryId": "7" }
     ],
@@ -88,7 +88,7 @@
     "userId": "106",
     "title": "Designer Handbag",
     "description": "Authentic luxury handbag in mint condition.",
-    "category": [
+    "categories": [
       { "id": "9", "name": "Fashion", "description": "Clothing and accessories" },
       { "id": "10", "name": "Accessories", "description": "Bags, jewelry, etc.", "parentCategoryId": "9" }
     ],
@@ -105,7 +105,7 @@
     "userId": "107",
     "title": "Gaming Console PlayStation 5",
     "description": "Latest model, includes one controller and game bundle.",
-    "category": [
+    "categories": [
       { "id": "1", "name": "Electronics", "description": "Electronic devices" },
       { "id": "11", "name": "Gaming", "description": "Gaming consoles and accessories", "parentCategoryId": "1" }
     ],

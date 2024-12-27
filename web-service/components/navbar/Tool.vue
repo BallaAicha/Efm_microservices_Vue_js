@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex align-center">
-    <NuxtLink :to="`/users/${user?.firstName}_${user?.lastName}/favoris`">
+    <NuxtLink :to="`/favoris`">
       <v-btn
         prepend-icon="mdi-heart"
         variant="plain"
@@ -12,7 +12,7 @@
         Favoris
       </v-btn>
     </NuxtLink>
-    <NuxtLink :to="`/users/${user?.firstName}_${user?.lastName}/messages`">
+    <NuxtLink :to="`/messages`">
       <v-btn
         prepend-icon="mdi-message-processing"
         variant="plain"
@@ -34,7 +34,7 @@
         class="text-none"
         :ripple="false"
       >
-        {{ user?.firstName }}
+        {{ user?.lastName }}
       </v-btn>
     </NuxtLink>
 

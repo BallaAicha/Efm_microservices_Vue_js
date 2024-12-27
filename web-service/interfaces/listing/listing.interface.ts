@@ -3,10 +3,11 @@ import type { CategoryInterface } from "./category.interface";
 // Listing
 export interface ListingInterface {
   id?: string | undefined; // UUID
+  listingId?: string | undefined; // UUID
   userId?: string | undefined; // UUID (relation avec User)
   title: string;
   description: string;
-  category: CategoryInterface[];
+  categories: CategoryInterface[];
   price: number; // Float
   isExchangeable: boolean;
   location: string;

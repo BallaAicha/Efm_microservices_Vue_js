@@ -1,58 +1,58 @@
 <template>
   <div class="card d-flex flex-column justify-space-between">
-      <div class="card__header" @click="goToListing">
-        <div class="header__img d-flex justify-center">
-          <img :src="photoStore.getRandomPhoto()" />
-        </div>
-        <div class="header__title">
-          <div class="title--h5">{{ listing.title }}</div>
-          <div class="title--h6">{{ listing.price }}</div>
-        </div>
+    <div class="card__header" @click="goToListing">
+      <div class="header__img d-flex justify-center">
+        <img :src="photoStore.getRandomPhoto()" />
       </div>
-      <div class="card__body d-flex flex-column" @click="goToListing">
-        <div class="d-flex align-center justify-start ga-2">
-          <v-icon
-            :color="listing.isExchangeable ? 'primary' : 'grey'"
-            icon="mdi-swap-horizontal"
-          ></v-icon>
-          <v-icon
-            v-if="listing.condition === 'NEW'"
-            color="success"
-            icon=" mdi-new-box"
-          ></v-icon>
-          <v-icon
-            v-if="listing.condition === 'USED'"
-            color="grey"
-            icon=" mdi-alert"
-          ></v-icon>
-        </div>
-        <div class="text-body-2">{{ listing.location }}</div>
-        <div class="text-caption">{{ formatDate(listing.updatedAt) }}</div>
-      </div>
-      
-    <div class="card__action d-flex align-center justify-space-between ga-2">
-        <v-btn
-          :style="computedStyle"
-          icon="mdi-email"
-          color="secondary"
-          size="x-small"
-          :disabled="contact ? false : true"
-          flat
-          @click="messageStore.open(props.listing)"
-        ></v-btn>
-        <v-btn
-          @click="contact = !contact"
-          icon="mdi-heart"
-          size="x-small"
-          flat
-          :color="contact ? 'error' : 'white'"
-          class="action--favoris"
-        ></v-btn>
+      <div class="header__title">
+        <div class="title--h5">{{ listing.title }}</div>
+        <div class="title--h6">{{ listing.price }}</div>
       </div>
     </div>
+    <div class="card__body d-flex flex-column" @click="goToListing">
+      <div class="d-flex align-center justify-start ga-2">
+        <v-icon
+          :color="listing.isExchangeable ? 'primary' : 'grey'"
+          icon="mdi-swap-horizontal"
+        ></v-icon>
+        <v-icon
+          v-if="listing.condition === 'NEW'"
+          color="success"
+          icon=" mdi-new-box"
+        ></v-icon>
+        <v-icon
+          v-if="listing.condition === 'USED'"
+          color="grey"
+          icon=" mdi-alert"
+        ></v-icon>
+      </div>
+      <div class="text-body-2">{{ listing.location }}</div>
+      <div class="text-caption">{{ formatDate(listing.updatedAt) }}</div>
+    </div>
+
+    <div class="card__action d-flex align-center justify-space-between ga-2">
+      <v-btn
+        :style="computedStyle"
+        icon="mdi-email"
+        color="secondary"
+        size="x-small"
+        :disabled="contact ? false : true"
+        flat
+        @click="messageStore.open(props.listing)"
+      ></v-btn>
+      <v-btn
+        @click="props.listing.listingId && addFavorite(props.listing.listingId)"
+        icon="mdi-heart"
+        size="x-small"
+        flat
+        :color="contact ? 'error' : 'white'"
+      ></v-btn>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
+import { addListingToFavorite } from "~/api/listingApi";
 import type { ListingInterface } from "~/interfaces/listing/listing.interface";
 import { formatDate } from "~/utils/dateUtils";
 
@@ -60,6 +60,19 @@ const messageStore = useMessageStore();
 const photoStore = usePhotoStore();
 
 const contact = ref(false);
+
+async function addFavorite(listingId: string) {
+  try {
+    await addListingToFavorite(listingId).then(() => {
+    }).then(() => {
+      contact.value = !contact;
+      alert("Listing ajouté au favoris")
+      // TODO: change logic
+    });
+  } catch (error) {
+    console.error("Erreur lors de l'ajout aux favoris : ", error);
+  }
+}
 
 const props = defineProps<{
   listing: ListingInterface;
@@ -70,7 +83,7 @@ const computedStyle = computed(() => {
 
 const router = useRouter();
 function goToListing() {
-  router.push(`/categories/${props.listing.category[0].name}/listings/${props.listing?.title}`);
+  router.push({ path: `/listings/${props.listing?.listingId}` });
 }
 </script>
 
