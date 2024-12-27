@@ -9,16 +9,20 @@ export const useMessageStore = defineStore("messageStore", {
   }),
   actions: {
     open(listing: ListingInterface) {
+      if (this.isOpen && this.listing.id === listing.id) {
+        return; // Empêche de rouvrir la même annonce inutilement
+      }
       if (this.isOpen) {
         this.close();
         setTimeout(() => {
           this.isOpen = true;
+          this.listing = listing;
         }, 1000);
       } else {
         this.isOpen = true;
+        this.listing = listing;
       }
-      this.listing = listing;
-    },
+    },    
     close() {
       this.isOpen = false;
       this.listing = emptyListing(); // Réinitialisation avec l'état vide
