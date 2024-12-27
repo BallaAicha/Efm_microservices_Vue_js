@@ -4,10 +4,6 @@
   </v-container>
 </template>
 
-<script lang="ts" setup>
-import listings from "~/data/listings.json";
-</script>
+<script lang="ts" setup></script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
