@@ -34,7 +34,7 @@ export const titleRules = [
 
 export const priceRules = [
   (v: number | string) => !!v || "Le prix est requis",
-  (v: number | string) => v > 0 || "Le prix doit être supérieur à 0",
+  (v: number | string) => Number(v) > 0 || "Le prix doit être supérieur à 0",
   (v: number | string) =>
     /^[0-9]+(\.[0-9]{1,2})?$/.test(v.toString()) ||
     "Le prix doit être un nombre valide (ex: 100 ou 99.99)",
