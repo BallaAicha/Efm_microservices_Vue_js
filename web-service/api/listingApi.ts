@@ -2,7 +2,7 @@ import type { ListingInterface } from "~/interfaces/listing/listing.interface";
 
 const getConfig = () => {
   const config = useRuntimeConfig();
-  const token = useCookie("token");
+  const token = useCookie("access_token");
   return {
     apiUrl: config.public.apiUrlListing + '/api',
     headers: {

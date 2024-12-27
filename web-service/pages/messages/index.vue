@@ -1,9 +1,8 @@
 <template>
-  <div>
-    <h1>Boîte de réception</h1>
+  <!-- <div>
+    <h1>Boîte de réception des messages</h1>
 
     <ClientOnly>
-      <!-- Messages reçus -->
       <div id="messages">
         <h2>Messages reçus :</h2>
         <ul id="message-list">
@@ -19,7 +18,6 @@
         </ul>
       </div>
 
-      <!-- Formulaire de réponse -->
       <div id="reply-box" v-if="selectedRecipientId">
         <h2>Répondre à : {{ selectedRecipientName }}</h2>
         <textarea v-model="replyMessage" placeholder="Tapez votre message..."></textarea><br />
@@ -30,10 +28,10 @@
         <p>Chargement de la messagerie...</p>
       </template>
     </ClientOnly>
-  </div>
+  </div> -->
 </template>
 
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import type { ChatMessage } from "~/interfaces/chat";
 
 const token = useCookie("access_token");
@@ -91,4 +89,4 @@ onMounted(() => {
 onUnmounted(() => {
   disconnectWebSocket()
 })
-</script>
+</script> -->
