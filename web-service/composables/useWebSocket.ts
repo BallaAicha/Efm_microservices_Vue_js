@@ -8,7 +8,11 @@ export function useWebSocket() {
   const receivedMessages = ref<ChatMessage[]>([])
   const isConnected = ref(false)
   const config = useRuntimeConfig();
+<<<<<<< Updated upstream
   const apiUrl = config.public.apiUrl + "/ws";
+=======
+  const apiUrl = config.public.apiUrl + "/auth/ws/websocket";
+>>>>>>> Stashed changes
   const token = useCookie("access_token").value;
 
   const connectWebSocket = async (recipientId: string) => {
