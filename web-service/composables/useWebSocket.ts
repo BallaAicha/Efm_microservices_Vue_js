@@ -1,21 +1,21 @@
-// // composables/useWebSocket.ts
-// import { ref } from 'vue'
-// import type { Client as Stomp } from '@stomp/stompjs'
-// import type { ChatMessage } from '~/interfaces/chat'
+// composables/useWebSocket.ts
+import { ref } from 'vue'
+import type { Client as Stomp } from '@stomp/stompjs'
+import type { ChatMessage } from '~/interfaces/chat'
 
-// export function useWebSocket() {
-//   const stompClient = ref<Stomp | null>(null)
-//   const receivedMessages = ref<ChatMessage[]>([])
-//   const isConnected = ref(false)
-//   const config = useRuntimeConfig();
-//   const apiUrl = config.public.apiUrl + "/ws";
-//   const token = useCookie("access_token").value;
+export function useWebSocket() {
+  const stompClient = ref<Stomp | null>(null)
+  const receivedMessages = ref<ChatMessage[]>([])
+  const isConnected = ref(false)
+  const config = useRuntimeConfig();
+  const apiUrl = config.public.apiUrl + "/auth/ws/websocket";
+  const token = useCookie("access_token").value;
 
-//   const connectWebSocket = async (recipientId: string) => {
-//     // Vérifier si on est côté client
-//     if (process.server) return
+  const connectWebSocket = async (recipientId: string) => {
+    // Vérifier si on est côté client
+    if (process.server) return
 
-//     const { $createStompClient } = useNuxtApp()
+    const { $createStompClient } = useNuxtApp()
     
 //     try {
 //       stompClient.value = $createStompClient(`${apiUrl}`)

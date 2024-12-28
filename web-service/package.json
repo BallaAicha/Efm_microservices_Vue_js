@@ -24,6 +24,7 @@
     "oauth-1.0a": "^2.2.6",
     "pinia": "^2.2.5",
     "sass": "^1.77.6",
+    "sockjs-client": "^1.6.1",
     "vite-plugin-vuetify": "^2.0.3",
     "vue": "latest",
     "vue-router": "latest",

@@ -1,4 +1,8 @@
 <template>
+  <v-container class="d-flex flex-column g-1">
+    <div v-for="favorite in favorites" :key="favorite.id">
+      <CardListingLast :listing="favorite.listing" />
+    </div>
   <v-container>
     <div v-for="favorite in favorites" :key="favorite.id">
       <CardListingLast :listing="favorite.listing" />
