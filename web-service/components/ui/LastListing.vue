@@ -2,7 +2,7 @@
   <section>
     <div class="text-h4 mb-4">Toutes les annonces</div>
     <div class="container-listing">
-      <CardListingVariant
+      <CardListingLast
         v-for="listing in listings"
         :key="listing.id"
         class="listing--card"
@@ -13,7 +13,23 @@
 </template>
 
 <script lang="ts" setup>
-import listings from "~/data/listings.json";
+import { getListings } from "~/api/listingApi";
+import type { ListingInterface } from "~/interfaces/listing/listing.interface";
+
+const listings = ref<ListingInterface[]>([]);
+
+const fetchListingsData = async () => {
+  try {
+    const data = await getListings();
+    listings.value = data;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des données :", error);
+  }
+};
+
+onMounted(async () => {
+  fetchListingsData();
+});
 </script>
 
 <style lang="scss" scoped>

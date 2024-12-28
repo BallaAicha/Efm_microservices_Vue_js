@@ -18,9 +18,8 @@ public class Listing {
     private Double price;
     private String location;
     private String description;
-    private List<Integer> category; // IDs des catégories
+    private List<Category> category; // IDs des catégories
     private Boolean isExchangeable;
     private String condition; // NEW ou USED
     private String status; // ACTIVE, SOLD ou REMOVED
-    
 }

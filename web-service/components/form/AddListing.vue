@@ -55,7 +55,7 @@
     <!-- Catégorie -->
     <v-col cols="12">
       <v-select
-        v-model="listing.category"
+        v-model="listing.categories"
         :items="categories"
         :rules="categoryRules"
         item-value="id"
@@ -174,7 +174,7 @@ const listing = ref<ListingInterface>({
   userId: "",
   title: "",
   description: "",
-  category: [], // Tableau des catégories sélectionnées
+  categories: [], // Tableau des catégories sélectionnées
   price: 0,
   isExchangeable: false,
   location: "",
@@ -195,7 +195,7 @@ const validateAndProceed = () => {
   if (
     !listing.value.title ||
     !listing.value.price ||
-    !listing.value.category.length
+    !listing.value.categories.length
   ) {
     console.error("Formulaire invalide !");
     return;

@@ -26,7 +26,7 @@
       ></v-icon>
 
       <div class="text-body-2">{{ listing.location }}</div>
-      <div class="text-caption">{{ formatDate(listing.createdAt) }}</div>
+      <div class="text-caption">{{ formatDate(listing.updatedAt) }}</div>
     </div>
 
     <div class="card__action d-flex align-center justify-space-between ga-2">
@@ -71,9 +71,7 @@ const computedStyle = computed(() => {
 
 const router = useRouter();
 function goToListing() {
-  router.push(
-    `categories/${props.listing.category[0].name}/listings/${props.listing?.title}`
-  );
+  router.push({ path: `/listings/${props.listing?.listingId}` });
 }
 </script>
 
