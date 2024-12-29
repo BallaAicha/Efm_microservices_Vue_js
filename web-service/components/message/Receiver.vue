@@ -8,8 +8,9 @@
       </div>
       <div class="mt-3">
         <h2>Messages reçus :</h2>
-        <v-card variant="tonal" color="primary" v-for="(msg, index) in messages" :key="index" class="pa-3 mt-2">
-          {{ msg }}
+        <v-card variant="tonal" :color="msg.senderId === user.id ? 'primary' : 'grey'" v-for="(msg, index) in messages" :key="index" class="pa-3 mt-2">
+          <div>{{ msg.content }}</div>
+          <div>{{ msg.senderName }}</div>
         </v-card>
       </div>
     </div>
@@ -20,9 +21,12 @@
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { Client } from "@stomp/stompjs";
 
+const { user } = storeToRefs(useAuthStore());
+
 const config = useRuntimeConfig();
 const wsEndpoint = config.public.apiUrl + "/auth/ws/websocket";
 const token = useCookie("access_token").value;
+// const recipientId = user.value.id;
 const recipientId = "8d1d6be7-790b-4bd6-b096-643c41b86e21";
 const topic = `/topic/messages/${recipientId}`;
 
@@ -42,7 +46,7 @@ const connectWebSocket = () => {
     onConnect: () => {
       isConnected.value = true;
       client.subscribe(topic, (message) => {
-        messages.value.push(JSON.parse(message.body).content);
+        messages.value.push(JSON.parse(message.body));
       });
     },
     onStompError: (frame) => {

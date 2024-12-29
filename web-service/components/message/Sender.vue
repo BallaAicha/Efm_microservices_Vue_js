@@ -72,14 +72,18 @@ const disconnectWebSocket = () => {
   }
 };
 
+const { user } = storeToRefs(useAuthStore());
+
 const createTopicAndSendMessage = () => {
   if (isConnected.value && messageToSend.value) {
     const recipientId = "8d1d6be7-790b-4bd6-b096-643c41b86e21";
+    // const recipientId = user.value.id;
     const topic = `/topic/messages/${recipientId}`;
     const chatMessage = {
       content: messageToSend.value,
-      senderId: "SENDER_ID", // Remplacez par l'ID de l'expéditeur
-      recipientId,
+      senderId: user.value.id, // Remplacez par l'ID de l'expéditeur
+      senderName: user.value.firstName + ' ' + user.value.lastName,
+      recipientId: recipientId,
       tstamp: new Date().getTime().toString(),
     };
 

@@ -29,6 +29,7 @@
           active-color="secondary"
         />
         <p class="text-h5">{{ props.user.numberOfReviews }}</p>
+        <p class="text-h5">{{ props.user.id }}</p>
       </div>
     </div>
   </v-card>

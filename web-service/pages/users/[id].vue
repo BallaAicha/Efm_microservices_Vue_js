@@ -29,7 +29,5 @@ const fetchUserData = async () => {
   }
 };
 
-
-
 onMounted(() => fetchUserData());
 </script>

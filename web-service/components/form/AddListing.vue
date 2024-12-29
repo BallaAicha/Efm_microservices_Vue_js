@@ -167,22 +167,22 @@ onMounted(async () => {
 });
 
 // Définitions des propriétés du formulaire
-// const listing = emptyListing() as ListingInterface;
+const listing = ref<ListingInterface>(emptyListing());
 
-const listing = ref<ListingInterface>({
-  id: "",
-  userId: "",
-  title: "",
-  description: "",
-  categories: [], // Tableau des catégories sélectionnées
-  price: 0,
-  isExchangeable: false,
-  location: "",
-  condition: "NEW",
-  status: "ACTIVE",
-  createdAt: new Date(),
-  updatedAt: new Date(),
-});
+// const listing = ref<ListingInterface>({
+//   id: "",
+//   userId: "",
+//   title: "",
+//   description: "",
+//   categories: [], // Tableau des catégories sélectionnées
+//   price: 0,
+//   isExchangeable: false,
+//   location: "",
+//   condition: "NEW",
+//   status: "ACTIVE",
+//   createdAt: new Date(),
+//   updatedAt: new Date(),
+// });
 
 // Réinitialiser le formulaire
 const resetValidation = () => {

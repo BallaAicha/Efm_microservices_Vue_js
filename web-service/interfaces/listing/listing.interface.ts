@@ -4,7 +4,7 @@ import type { CategoryInterface } from "./category.interface";
 export interface ListingInterface {
   id?: string | undefined; // UUID
   listingId?: string | undefined; // UUID
-  userId?: string | undefined; // UUID (relation avec User)
+  userId: string; // UUID (relation avec User)
   title: string;
   description: string;
   categories: CategoryInterface[];

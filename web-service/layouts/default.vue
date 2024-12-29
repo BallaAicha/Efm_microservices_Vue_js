@@ -22,7 +22,7 @@
     </v-navigation-drawer>
 
     <!-- Navigation mobile -->
-    <div v-if="isMobile" class="navigation__mobile">
+    <!-- <div v-if="isMobile" class="navigation__mobile">
       <div class="pa-4">
         <div class="d-flex align-center justify-center mb-4">
           <v-btn
@@ -37,10 +37,10 @@
         </div>
         <FormSearchListing class="flex-1-1" />
       </div>
-    </div>
+    </div> -->
 
     <!-- Header pour les écrans desktop -->
-    <div v-else>
+    <div>
       <TheHeader class="header-fixed" />
       <TheHeader class="header-static" />
     </div>

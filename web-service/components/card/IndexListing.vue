@@ -36,10 +36,18 @@
         icon="mdi-email"
         color="secondary"
         size="x-small"
-        :disabled="contact ? false : true"
         flat
         @click="messageStore.open(props.listing)"
       ></v-btn>
+      <!-- <v-btn
+        :style="computedStyle"
+        icon="mdi-email"
+        color="secondary"
+        size="x-small"
+        :disabled="contact ? false : true"
+        flat
+        @click="messageStore.open(props.listing)"
+      ></v-btn> -->
       <v-btn
         @click="props.listing.listingId && addFavorite(props.listing.listingId)"
         icon="mdi-heart"
@@ -78,7 +86,7 @@ const props = defineProps<{
   listing: ListingInterface;
 }>();
 const computedStyle = computed(() => {
-  return contact.value ? { opacity: "1" } : { opacity: "0" };
+  return contact.value ? { opacity: "1" } : { opacity: "1" }; // TODO: change opacity to 0
 });
 
 const router = useRouter();

@@ -7,7 +7,7 @@
     <div class="pa-3 pt-2 pb-3 d-flex align-center justify-space-between">
       <div class="d-flex align-center ga-3">
         <v-avatar :image="photoStore.getRandomPhoto()" size="50"></v-avatar>
-        <div class="message-user">{{ listing.title }}</div>
+        <div class="message-user">{{ listing.userId }}</div>
       </div>
       <v-btn
         icon="mdi-close"
@@ -16,7 +16,7 @@
         variant="text"
       ></v-btn>
     </div>
-    <CardDiscussion />
+    <CardDiscussion :recipient-id="listing.userId" />
   </v-card>
 </template>
 

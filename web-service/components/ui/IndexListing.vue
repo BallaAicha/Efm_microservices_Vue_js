@@ -9,7 +9,7 @@
       </v-btn>
     </div>
     <div class="container-listing">
-      <CardListing
+      <CardIndexListing
         v-for="listing in listings"
         :key="listing.id"
         class="listing--card"
