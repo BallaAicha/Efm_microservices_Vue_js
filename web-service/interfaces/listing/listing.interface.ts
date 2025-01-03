@@ -7,7 +7,7 @@ export interface ListingInterface {
   userId: string; // UUID (relation avec User)
   title: string;
   description: string;
-  categories: CategoryInterface[];
+  category: CategoryInterface[];
   price: number; // Float
   isExchangeable: boolean;
   location: string;

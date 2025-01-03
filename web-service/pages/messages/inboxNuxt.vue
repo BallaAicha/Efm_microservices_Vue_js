@@ -1,92 +1,56 @@
 <template>
-  <div>
-    <h1>Boîte de réception des messages</h1>
-
-    <ClientOnly>
-      <div id="messages">
-        <h2>Messages reçus :</h2>
-        <ul id="message-list">
-          <li v-for="message in receivedMessages" :key="message.tstamp">
-            <strong>De :</strong> {{ message.senderName }} <br />
-            <strong>Message :</strong> {{ message.content }} <br />
-            <strong>À propos de :</strong> Listing ID {{ message.listingId }} <br />
-            <span><em>Reçu à : {{ new Date(parseInt(message.tstamp)).toLocaleString() }}</em></span><br />
-            <button @click="selectRecipient(message.senderId, message.senderName, message.chatChannel)">
-              Répondre
-            </button>
-          </li>
-        </ul>
-      </div>
-
-      <div id="reply-box" v-if="selectedRecipientId">
-        <h2>Répondre à : {{ selectedRecipientName }}</h2>
-        <textarea v-model="replyMessage" placeholder="Tapez votre message..."></textarea><br />
-        <button @click="sendReply">Envoyer</button>
-      </div>
-
-      <template #fallback>
-        <p>Chargement de la messagerie...</p>
-      </template>
-    </ClientOnly>
-  </div>
+  <v-container>
+    <v-row align-content="start" gap="3">
+      <v-col cols="4" class="border h-auto">
+        <v-card
+          @click="selectedRecipient = listing.userId"
+          v-for="listing in listings"
+          :key="listing.id"
+          flat
+          class="pa-2"
+        >
+          <div class="text-caption">{{ listing.title }}</div>
+          <div>{{ listing.listingId }}</div>
+          <div class="text-caption text-grey">{{ listing.userId }}</div>
+        </v-card>
+      </v-col>
+      <v-col cols="12" md="8">
+        <div class="text-h5 mb-2">{{ selectedRecipient }}</div>
+        <MessageReceiver @selected-recipient="sendResponseTo" class="mb-3" />
+        <MessageSender :recipient-id="selectedRecipient" />
+      </v-col>
+    </v-row>
+  </v-container>
+  <!-- <UiInbox /> -->
 </template>
 
-<script setup lang="ts">
-import type { ChatMessage } from "~/interfaces/chat";
+<script lang="ts" setup>
+import { getListings } from "~/api/listingApi";
+import type { ListingInterface } from "~/interfaces/listing/listing.interface";
 
-const token = useCookie("access_token");
-const recipientId = ref('votre-recipient-id')
-const selectedRecipientId = ref<string | null>(null)
-const selectedRecipientName = ref<string | null>(null)
-const currentChatChannel = ref<string | null>(null)
-const replyMessage = ref('')
+const selectedRecipient = ref<string>("");
 
-const { stompClient, receivedMessages, connectWebSocket, disconnectWebSocket } = useWebSocket()
+const sendResponseTo = (recipientId: string) => {
+  selectedRecipient.value = recipientId;
+};
 
-// Sélectionner un destinataire pour répondre
-const selectRecipient = (recipientId: string, recipientName: string, chatChannel: string) => {
-  selectedRecipientId.value = recipientId
-  selectedRecipientName.value = recipientName
-  currentChatChannel.value = chatChannel
-}
+const listings = ref<ListingInterface[]>([]);
 
-// Envoyer une réponse
-const sendReply = () => {
-  if (!replyMessage.value || !selectedRecipientId.value || !currentChatChannel.value) {
-    alert("Veuillez sélectionner un destinataire et entrer un message !")
-    return
+const { user } = storeToRefs(useAuthStore()); // make authenticated state reactive with storeToRefs
+
+const fetchListingsData = async () => {
+  try {
+    const data = await getListings();
+    const filteredData = data.filter((item) => item.userId !== user.value?.id);
+    listings.value = filteredData;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des données :", error);
   }
+};
 
-  const chatMessage: ChatMessage = {
-    content: replyMessage.value,
-    senderId: recipientId.value,
-    recipientId: selectedRecipientId.value,
-    senderName: 'Annonceur',
-    chatChannel: currentChatChannel.value,
-    tstamp: new Date().getTime().toString(),
-    listingId: '12345',
-  }
-
-  stompClient.value?.publish({
-    destination: `/app/chat/${selectedRecipientId.value}`,
-    headers: { Authorization: `Bearer ${token.value}` },
-    body: JSON.stringify(chatMessage),
-  })
-
-  // Réinitialisation
-  replyMessage.value = ''
-  selectedRecipientId.value = null
-  selectedRecipientName.value = null
-  currentChatChannel.value = null
-}
-
-// Connexion WebSocket au montage du composant (côté client uniquement)
 onMounted(() => {
-  connectWebSocket(recipientId.value)
-})
-
-// Déconnexion propre lors du démontage
-onUnmounted(() => {
-  disconnectWebSocket()
-})
+  fetchListingsData();
+});
 </script>
+
+<style lang="scss" scoped></style>

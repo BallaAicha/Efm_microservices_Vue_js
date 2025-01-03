@@ -4,12 +4,12 @@ export function emptyListing(): ListingInterface {
   return {
     id: undefined,
     userId: undefined,
-    title: "",
-    description: "",
+    title: "Item By Fernando",
+    description: "On teste",
     category: [],
-    price: 0,
+    price: 56,
     isExchangeable: false,
-    location: "",
+    location: "Rabat",
     condition: "NEW", // Valeur par défaut
     createdAt: new Date,
     updatedAt: new Date,

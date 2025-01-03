@@ -47,7 +47,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from "vue";
 const themeStore = useThemeStore();
 
 // État pour contrôler le drawer

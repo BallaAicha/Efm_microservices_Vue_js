@@ -55,7 +55,7 @@
     <!-- Catégorie -->
     <v-col cols="12">
       <v-select
-        v-model="listing.categories"
+        v-model="listing.category"
         :items="categories"
         :rules="categoryRules"
         item-value="id"
@@ -195,7 +195,7 @@ const validateAndProceed = () => {
   if (
     !listing.value.title ||
     !listing.value.price ||
-    !listing.value.categories.length
+    !listing.value.category.length
   ) {
     console.error("Formulaire invalide !");
     return;
