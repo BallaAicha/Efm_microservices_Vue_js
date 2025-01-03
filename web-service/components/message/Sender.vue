@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="border pa-3">
       <h1>WebSocket Sender</h1>
       <div>
         <p v-if="isConnected">🟢 Connecté</p>
@@ -30,12 +30,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
 import { Client } from "@stomp/stompjs";
-import type { ListingInterface } from "~/interfaces/listing/listing.interface";
 
 const props = defineProps<{
-  recipient: ListingInterface
+  recipientId: string
 }>();
 
 const config = useRuntimeConfig();
@@ -44,7 +42,7 @@ const token = useCookie("access_token").value;
 
 const isConnected = ref(false);
 const messageToSend = ref("");
-let client;
+let client: Client;
 
 const connectWebSocket = () => {
   client = new Client({
@@ -78,20 +76,18 @@ const disconnectWebSocket = () => {
 const { user } = storeToRefs(useAuthStore());
 
 const createTopicAndSendMessage = () => {
-  if (isConnected.value && messageToSend.value) {
-    // const recipientId = "8d1d6be7-790b-4bd6-b096-643c41b86e21";
-    // const recipientId = user.value.id;
-    const topic = `/topic/messages/${props.recipient.userId}`;
+  if (isConnected.value && messageToSend.value && user.value) {
+    // const topic = `/topic/messages/${props.recipient.userId}`;
     const chatMessage = {
       content: messageToSend.value,
-      senderId: user.value.id, // Remplacez par l'ID de l'expéditeur
       senderName: user.value.firstName + ' ' + user.value.lastName,
-      recipientId: props.recipient.userId,
+      senderId: user.value.id,
+      recipientId: props.recipientId,
       tstamp: new Date().getTime().toString(),
     };
 
     client.publish({
-      destination: `/app/chat/${props.recipient.userId}`,
+      destination: `/app/chat/${props.recipientId}`,
       headers: { Authorization: `Bearer ${token}` },
       body: JSON.stringify(chatMessage),
     });

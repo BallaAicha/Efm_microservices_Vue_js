@@ -1,20 +1,24 @@
 <template>
   <v-container>
-    <v-row>
-      <v-cols cols="4" class="border">
+    <v-row align-content="start" gap="3">
+      <v-col cols="4" class="border h-auto">
         <v-card
-          @click="selectedListing = listing"
+          @click="selectedRecipient = listing.userId"
           v-for="listing in listings"
           :key="listing.id"
           flat
+          class="pa-2"
         >
-          <v-card-text>{{ listing.listingId }}</v-card-text>
+          <div class="text-caption">{{ listing.title }}</div>
+          <div>{{ listing.listingId }}</div>
+          <div class="text-caption text-grey">{{ listing.userId }}</div>
         </v-card>
-      </v-cols>
-      <v-cols cols="6" class="websocket">
-        <MessageReceiver :recipient="selectedListing" />
-        <MessageSender :recipient="selectedListing" />
-      </v-cols>
+      </v-col>
+      <v-col cols="12" md="8">
+        <div class="text-h5 mb-2">{{ selectedRecipient }}</div>
+        <MessageReceiver @selected-recipient="sendResponseTo" class="mb-3" />
+        <MessageSender :recipient-id="selectedRecipient" />
+      </v-col>
     </v-row>
   </v-container>
   <!-- <UiInbox /> -->
@@ -24,7 +28,12 @@
 import { getListings } from "~/api/listingApi";
 import type { ListingInterface } from "~/interfaces/listing/listing.interface";
 
-const selectedListing = ref<ListingInterface>(emptyListing());
+// const selectedListing = ref<ListingInterface>(emptyListing());
+const selectedRecipient = ref<string>("");
+
+const sendResponseTo = (recipientId: string) => {
+  selectedRecipient.value = recipientId;
+};
 
 const listings = ref<ListingInterface[]>([]);
 
@@ -40,18 +49,9 @@ const fetchListingsData = async () => {
   }
 };
 
-const handleListing = (listing: ListingInterface) => {
-  selectedListing.value = listing;
-};
-
 onMounted(() => {
   fetchListingsData();
 });
 </script>
 
-<style lang="scss" scoped>
-.websocket {
-  // width: 500px;
-  margin-left: 2rem;
-}
-</style>
+<style lang="scss" scoped></style>
