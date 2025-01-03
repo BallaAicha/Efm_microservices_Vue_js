@@ -1,7 +1,6 @@
 <template>
-  <v-container>
     <div>
-      <h1>WebSocket Receiver</h1>
+      <h1>WebSocket Receiver : {{  recipient.userId }}</h1>
       <div>
         <p v-if="isConnected">🟢 Connecté</p>
         <p v-else>🔴 Déconnecté</p>
@@ -14,12 +13,16 @@
         </v-card>
       </div>
     </div>
-  </v-container>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { Client } from "@stomp/stompjs";
+import type { ListingInterface } from "~/interfaces/listing/listing.interface";
+
+const props = defineProps<{
+  recipient: ListingInterface
+}>();
 
 const { user } = storeToRefs(useAuthStore());
 
@@ -27,8 +30,8 @@ const config = useRuntimeConfig();
 const wsEndpoint = config.public.apiUrl + "/auth/ws/websocket";
 const token = useCookie("access_token").value;
 // const recipientId = user.value.id;
-const recipientId = "8d1d6be7-790b-4bd6-b096-643c41b86e21";
-const topic = `/topic/messages/${recipientId}`;
+// const recipientId = "8d1d6be7-790b-4bd6-b096-643c41b86e21";
+const topic = `/topic/messages/${user.value.id}`;
 
 const isConnected = ref(false);
 const messages = ref([]);

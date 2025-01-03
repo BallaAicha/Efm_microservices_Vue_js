@@ -1,5 +1,4 @@
 <template>
-  <v-container>
     <div>
       <h1>WebSocket Sender</h1>
       <div>
@@ -28,12 +27,16 @@
         ></v-btn>
       </div>
     </div>
-  </v-container>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { Client } from "@stomp/stompjs";
+import type { ListingInterface } from "~/interfaces/listing/listing.interface";
+
+const props = defineProps<{
+  recipient: ListingInterface
+}>();
 
 const config = useRuntimeConfig();
 const wsEndpoint = config.public.apiUrl + "/auth/ws/websocket";
@@ -76,19 +79,19 @@ const { user } = storeToRefs(useAuthStore());
 
 const createTopicAndSendMessage = () => {
   if (isConnected.value && messageToSend.value) {
-    const recipientId = "8d1d6be7-790b-4bd6-b096-643c41b86e21";
+    // const recipientId = "8d1d6be7-790b-4bd6-b096-643c41b86e21";
     // const recipientId = user.value.id;
-    const topic = `/topic/messages/${recipientId}`;
+    const topic = `/topic/messages/${props.recipient.userId}`;
     const chatMessage = {
       content: messageToSend.value,
       senderId: user.value.id, // Remplacez par l'ID de l'expéditeur
       senderName: user.value.firstName + ' ' + user.value.lastName,
-      recipientId: recipientId,
+      recipientId: props.recipient.userId,
       tstamp: new Date().getTime().toString(),
     };
 
     client.publish({
-      destination: `/app/chat/${recipientId}`,
+      destination: `/app/chat/${props.recipient.userId}`,
       headers: { Authorization: `Bearer ${token}` },
       body: JSON.stringify(chatMessage),
     });
