@@ -1,8 +1,9 @@
 // types/chat.ts
-export interface ChatMessageInterface {
+export interface MessageInterface {
   content: string;
   senderId: string;
   recipientId: string;
   senderName: string;
+  chatChannel?: string;
   tstamp: string;
 }

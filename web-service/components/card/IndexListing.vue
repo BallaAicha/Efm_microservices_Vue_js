@@ -6,6 +6,7 @@
       </div>
       <div class="header__title">
         <div class="title--h5">{{ listing.title }}</div>
+        <div class="text-caption">{{ 'Par : ' + listing.internalUser.firstName + ' ' + listing.internalUser.lastName }}</div>
         <div class="title--h6">{{ listing.price }}</div>
       </div>
     </div>

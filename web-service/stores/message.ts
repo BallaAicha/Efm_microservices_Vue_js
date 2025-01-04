@@ -1,5 +1,7 @@
+import type { Message } from "@stomp/stompjs";
 import { defineStore } from "pinia";
 import type { ListingInterface } from "~/interfaces/listing/listing.interface";
+import type { MessageInterface } from "~/interfaces/message.interface";
 import { emptyListing } from "~/utils/listingUtils";
 
 export const useMessageStore = defineStore("messageStore", {

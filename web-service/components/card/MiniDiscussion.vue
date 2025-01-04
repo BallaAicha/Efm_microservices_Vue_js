@@ -7,7 +7,11 @@
     <div class="pa-3 pt-2 pb-3 d-flex align-center justify-space-between">
       <div class="d-flex align-center ga-3">
         <v-avatar :image="photoStore.getRandomPhoto()" size="50"></v-avatar>
-        <div class="message-user">{{ listing.userId }}</div>
+        <div class="message-user">
+          {{
+            listing.internalUser.firstName + " " + listing.internalUser.lastName
+          }}
+        </div>
       </div>
       <v-btn
         icon="mdi-close"
@@ -16,7 +20,9 @@
         variant="text"
       ></v-btn>
     </div>
-    <CardDiscussion :recipient-id="listing.userId" />
+    <!-- <CardDiscussion :recipient-id="listing.userId" /> -->
+    <BaseReceiver @selected-recipient="sendResponseTo" :messages="messages" />
+    <BaseSender :recipient-id="listing.userId" />
   </v-card>
 </template>
 
@@ -26,10 +32,11 @@ const messageStore = useMessageStore();
 const photoStore = usePhotoStore();
 const { listing } = storeToRefs(useMessageStore());
 import anime from "animejs";
-
-const props = defineProps<{}>();
+import { getMessages } from "~/api/messageApi";
+import type { MessageInterface } from "~/interfaces/message.interface";
 
 onMounted(() => {
+  handleRecipient(listing.value.userId);
   anime({
     targets: ".message-card",
     opacity: [0, 1],
@@ -50,6 +57,40 @@ const handleClose = () => {
       messageStore.close(); // Fermer la carte une fois l'animation terminée
     },
   });
+};
+
+const selectedRecipient = ref<string>("");
+
+const sendResponseTo = (recipientId: string) => {
+  selectedRecipient.value = recipientId;
+};
+
+
+const { user } = storeToRefs(useAuthStore()); // make authenticated state reactive with storeToRefs
+
+
+const messages = ref<MessageInterface[]>([]);
+const channelName = ref<string>("");
+
+const handleRecipient = async (recipientId: string) => {
+  selectedRecipient.value = recipientId;
+
+  const id1 = user.value?.id;
+  const id2 = recipientId;
+
+  if (id1 && id1 > id2) {
+    channelName.value = id2 + "-" + id1;
+    console.log(channelName.value);
+  } else {
+    channelName.value = id1 + "-" + id2;
+    console.log(channelName.value);
+  }
+
+  try {
+    messages.value = await getMessages(channelName.value);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des messages :", error);
+  }
 };
 </script>
 

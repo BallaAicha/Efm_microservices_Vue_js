@@ -5,6 +5,7 @@ export interface ListingInterface {
   id?: string | undefined; // UUID
   listingId?: string | undefined; // UUID
   userId: string; // UUID (relation avec User)
+  internalUser: internalUser
   title: string;
   description: string;
   category: CategoryInterface[];
@@ -22,5 +23,10 @@ export interface ListingImgInterface {
   id: string; // UUID
   listingId: string; // UUID (relation avec Listing)
   imageUrl: string;
+}
+
+interface internalUser {
+  firstName: string;
+  lastName: string;
 }
 

@@ -49,7 +49,7 @@
 import { ref, onMounted, onBeforeUnmount, nextTick } from "vue";
 import { Client } from "@stomp/stompjs";
 import anime from "animejs";
-import type { ChatMessageInterface } from "~/interfaces/chat";
+import type { ChatMessageInterface } from "~/interfaces/message.interface";
 
 const props = defineProps<{
   recipientId: string;

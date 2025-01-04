@@ -49,7 +49,7 @@
 import { ref, onMounted, onBeforeUnmount, nextTick } from "vue";
 import { Client } from "@stomp/stompjs";
 import anime from "animejs";
-import type { ChatMessageInterface } from "~/interfaces/chat";
+import type { MessageInterface } from "~/interfaces/message.interface";
 
 const props = defineProps<{
   recipientId: string;
@@ -58,7 +58,7 @@ const props = defineProps<{
 const themeStore = useThemeStore();
 
 // Données
-const messages = ref<ChatMessageInterface[]>([]);
+const messages = ref<MessageInterface[]>([]);
 const newMessage = ref("");
 
 // Référence au conteneur des messages
@@ -85,7 +85,7 @@ const scrollToBottom = () => {
 
 const { user } = storeToRefs(useAuthStore()); // make authenticated state reactive with storeToRefs
 
-const chatMessage = ref<ChatMessageInterface>({
+const chatMessage = ref<MessageInterface>({
   senderId: user.value?.id || "",
   recipientId: props.recipientId,
   senderName: "me",

@@ -13,12 +13,18 @@
   <div
     v-for="(listing, i) in props.listings"
     :key="i"
-    @click="emit('selectedListing', listing)"
+    @click="emit('selectedRecipient', listing.userId)"
     class="user"
   >
     <div class="pa-2">
-      <div>{{ listing.title }}</div>
-      <div class="text-caption">{{ listing.userId }}</div>
+      <div class="text-caption">
+        {{
+          listing.internalUser.firstName + " " + listing.internalUser.lastName
+        }}
+      </div>
+      <div class="text-caption">{{ listing.title }}</div>
+      <div>{{ listing.listingId }}</div>
+      <div class="text-caption text-grey">{{ listing.userId }}</div>
     </div>
     <v-divider></v-divider>
   </div>
@@ -31,7 +37,7 @@ const props = defineProps<{
   listings: ListingInterface[];
 }>();
 
-const emit = defineEmits(["selectedListing"]);
+const emit = defineEmits(["selectedRecipient"]);
 </script>
 
 <style lang="scss" scoped>
