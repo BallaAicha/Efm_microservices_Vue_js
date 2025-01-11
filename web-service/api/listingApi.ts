@@ -60,6 +60,26 @@ export const addListing = async (
   }
 };
 
+export const isFavorite = async (listingId: string): Promise<boolean> => {
+  try {
+    const { apiUrl, headers } = getConfig();
+
+    return await $fetch<boolean>(`${apiUrl}/favorites/isFavorite`, {
+      method: "GET",
+      headers,
+      params: {
+        listingId: listingId,
+      },
+    });
+  } catch (err: any) {
+    console.error(
+      `Erreur lors de la varification du favoris avec l'ID ${listingId}:`,
+      err
+    );
+    throw new Error(err?.data?.message || "Erreur inconnue");
+  }
+}; 
+
 export const addListingToFavorite = async (
   listingId: string
 ): Promise<any> => {

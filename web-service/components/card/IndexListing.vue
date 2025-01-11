@@ -6,7 +6,14 @@
       </div>
       <div class="header__title">
         <div class="title--h5">{{ listing.title }}</div>
-        <div class="text-caption">{{ 'Par : ' + listing.internalUser.firstName + ' ' + listing.internalUser.lastName }}</div>
+        <div class="text-caption">
+          {{
+            "Par : " +
+            listing.internalUser.firstName +
+            " " +
+            listing.internalUser.lastName
+          }}
+        </div>
         <div class="title--h6">{{ listing.price }}</div>
       </div>
     </div>
@@ -61,7 +68,7 @@
 </template>
 
 <script lang="ts" setup>
-import { addListingToFavorite } from "~/api/listingApi";
+import { addListingToFavorite, isFavorite } from "~/api/listingApi";
 import type { ListingInterface } from "~/interfaces/listing/listing.interface";
 import { formatDate } from "~/utils/dateUtils";
 
@@ -69,16 +76,27 @@ const messageStore = useMessageStore();
 const photoStore = usePhotoStore();
 
 const contact = ref(false);
+const isFav = ref<boolean>(false);
 
 async function addFavorite(listingId: string) {
   try {
-    await addListingToFavorite(listingId).then(() => {
-    }).then(() => {
+    if (await isFavorite(listingId)) {
+      alert("Listing deja ajouté dans les favoris");
+    } else {
+      alert("Listing ajouté au favoris");
       contact.value = !contact;
-      alert("Listing ajouté au favoris")
-      // TODO: change logic
-    });
+      addListingToFavorite(listingId);
+    }
+
+    //  await isFavorite(listingId).then(() => {
+    // }).then(() => {
+    //   addListingToFavorite(listingId)
+    //   contact.value = !contact;
+    //   alert("Listing ajouté au favoris")
+    //   // TODO: change logic
+    // });
   } catch (error) {
+    alert("Listing deja ajouté dans les favoris");
     console.error("Erreur lors de l'ajout aux favoris : ", error);
   }
 }
