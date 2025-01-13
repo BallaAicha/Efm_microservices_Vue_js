@@ -61,10 +61,22 @@
         icon="mdi-heart"
         size="x-small"
         flat
-        :color="contact ? 'error' : 'white'"
+        :color="isFav ? 'error' : 'white'"
       ></v-btn>
     </div>
   </div>
+  <v-alert
+    v-if="isFav && alertFav !== ''"
+    :text="alertFav"
+    type="success"
+    class="alertFav"
+  ></v-alert>
+  <v-alert
+    v-if="!isFav && alertFav !== ''"
+    :text="alertFav"
+    type="warning"
+    class="alertFav"
+  ></v-alert>
 </template>
 
 <script lang="ts" setup>
@@ -76,27 +88,28 @@ const messageStore = useMessageStore();
 const photoStore = usePhotoStore();
 
 const contact = ref(false);
-const isFav = ref<boolean>(false);
+const isFav = ref(false);
+const alertFav = ref("");
+
+function showAlert(message: string, type: "success" | "error" | "warning") {
+  alertFav.value = message;
+  isFav.value = type === "success";
+  setTimeout(() => {
+    alertFav.value = "";
+  }, 3000); // L'alerte disparaît après 3 secondes
+}
 
 async function addFavorite(listingId: string) {
   try {
     if (await isFavorite(listingId)) {
-      alert("Listing deja ajouté dans les favoris");
+      showAlert("Listing déjà ajouté dans les favoris", "warning");
+      isFav.value = true;
     } else {
-      alert("Listing ajouté au favoris");
-      contact.value = !contact;
-      addListingToFavorite(listingId);
+      await addListingToFavorite(listingId);
+      showAlert("Listing ajouté aux favoris", "success");
     }
-
-    //  await isFavorite(listingId).then(() => {
-    // }).then(() => {
-    //   addListingToFavorite(listingId)
-    //   contact.value = !contact;
-    //   alert("Listing ajouté au favoris")
-    //   // TODO: change logic
-    // });
   } catch (error) {
-    alert("Listing deja ajouté dans les favoris");
+    showAlert("Erreur lors de l'ajout aux favoris", "error");
     console.error("Erreur lors de l'ajout aux favoris : ", error);
   }
 }
@@ -167,5 +180,12 @@ a {
 .title--h6 {
   font-weight: 600;
   font-size: 1.1rem;
+}
+
+.alertFav {
+  position: fixed;
+  z-index: 100;
+  right: 2rem;
+  bottom: 2rem;
 }
 </style>
