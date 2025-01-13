@@ -51,7 +51,7 @@
               text="Poster annonce"
               flat
               append-icon="mdi-tag-plus"
-              @click="$emit('add')"
+              @click="handleAddImages"
               :disabled="!previews.length"
             >
             </v-btn>
@@ -68,6 +68,7 @@ import type {
   ListingInterface,
   ListingImgInterface,
 } from "~/interfaces/listing/listing.interface";
+import { uploadListingImages } from "~/api/listingApi"
 
 const props = defineProps<{
   listing: ListingInterface;
@@ -75,14 +76,16 @@ const props = defineProps<{
 
 const emit = defineEmits(["cancel", "add"]);
 
-
 const previews = ref<string[]>([]);
+const files = ref<File[]>([]); // Stocker les fichiers sélectionnés
 
 const handleFileChange = (event: Event) => {
   const input = event.target as HTMLInputElement;
   if (!input.files) return;
 
   previews.value = [];
+  files.value = Array.from(input.files); // Mettre à jour les fichiers sélectionnés
+
   for (let i = 0; i < input.files.length; i++) {
     const file = input.files[i];
     const reader = new FileReader();
@@ -96,17 +99,28 @@ const handleFileChange = (event: Event) => {
   }
 };
 
-// Fonction pour ajouter des images
-// const handleAddImages = async (imagesData) => {
+// Fonction pour uploader les images
+
+
+// Fonction pour gérer l'ajout des images
 const handleAddImages = async () => {
   try {
-    // Supposons que vous ayez une fonction pour envoyer les images à l'API
-    // await addImagesToListing(props.listingId, imagesData); 
-    emit("add"); // Déclencher l'événement 'add' une fois les images envoyées
+    if (!files.value.length) {
+      console.warn("Aucun fichier sélectionné pour l'upload.");
+      return;
+    }
+
+    if (props.listing.listingId) {
+      await uploadListingImages(props.listing.listingId, files.value);
+    } else {
+      console.error("Listing ID is undefined.");
+    }
+    emit("add"); // Déclencher l'événement 'add' après l'upload réussi
   } catch (err) {
     console.error("Erreur lors de l'ajout des images :", err);
   }
 };
+
 </script>
 
 <style lang="scss" scoped>

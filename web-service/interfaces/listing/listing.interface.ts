@@ -5,11 +5,12 @@ export interface ListingInterface {
   id?: string | undefined; // UUID
   listingId?: string | undefined; // UUID
   userId: string; // UUID (relation avec User)
-  internalUser: internalUser
+  internalUser: internalUser;
   title: string;
   description: string;
   category: CategoryInterface[];
   price: number; // Float
+  images: image[];
   isExchangeable: boolean;
   location: string;
   condition: "NEW" | "USED"; // Enum
@@ -30,3 +31,9 @@ interface internalUser {
   lastName: string;
 }
 
+interface image {
+  idImage: string;
+  name: string;
+  type: string;
+  image: string;
+}

@@ -2,7 +2,9 @@
   <div class="card d-flex flex-column justify-space-between">
     <div class="card__header" @click="goToListing">
       <div class="header__img d-flex justify-center">
-        <img :src="photoStore.getRandomPhoto()" />
+
+        <img v-if="listing.images.length === 0" src="/assets/img/no_image.jpg" />
+        <img v-else :src="getImageUrl(listing.images)" />
       </div>
       <div class="header__title">
         <div class="title--h5">{{ listing.title }}</div>
@@ -90,6 +92,11 @@ const photoStore = usePhotoStore();
 const contact = ref(false);
 const isFav = ref(false);
 const alertFav = ref("");
+
+const getImageUrl = (images: any) => {
+  // const lastIndex = images.length - 1; // Index du dernier élément
+  return `data:${images[0].type};base64,${images[0].image}`;
+};
 
 function showAlert(message: string, type: "success" | "error" | "warning") {
   alertFav.value = message;

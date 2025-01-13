@@ -8,8 +8,8 @@
     <v-row align="start" justify="start" class="flex-column flex-md-row">
       <v-col cols="12" md="4">
         <div class="container__img">
-          <div v-for="i in 5" class="img--cover">
-            <img :src="photoStore.getRandomPhoto()" />
+          <div v-for="img in listing.images" class="img--cover">
+            <img :src="getImageUrl(img)" />
           </div>
         </div>
       </v-col>
@@ -69,6 +69,10 @@ const fetchListingData = async () => {
   } catch (error) {
     console.error("Erreur lors de la récupération des données :", error);
   }
+};
+
+const getImageUrl = (image: any) => {
+  return `data:${image.type};base64,${image.image}`;
 };
 
 onMounted(async () => {

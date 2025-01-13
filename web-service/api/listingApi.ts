@@ -149,3 +149,34 @@ export const deleteListing = async (id: number): Promise<void> => {
     throw new Error(err?.data?.message || "Erreur inconnue");
   }
 };
+
+export const uploadListingImages = async (
+  listingId: string,
+  files: File[]
+): Promise<void> => {
+  try {
+    const { apiUrl, headers } = getConfig();
+
+    // Création d'un FormData pour gérer les fichiers
+    const formData = new FormData();
+    files.forEach((file) => formData.append("images", file));
+
+    // Requête pour uploader les images
+    return await $fetch<void>(
+      `${apiUrl}/api/listing-images/uploadImageListing/${listingId}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: headers.Authorization, // Inclut uniquement le header d'autorisation
+        },
+        body: formData,
+      }
+    );
+  } catch (err: any) {
+    console.error(
+      `Erreur lors de l'upload des images pour le listing avec l'ID ${listingId}:`,
+      err
+    );
+    throw new Error(err?.data?.message || "Erreur inconnue");
+  }
+};
