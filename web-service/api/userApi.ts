@@ -88,3 +88,26 @@ export const deleteUser = async (id: number): Promise<void> => {
     throw new Error(err?.data?.message || "Erreur inconnue");
   }
 };
+
+export const uploadUserPhoto = async (userId: string, file: File): Promise<void> => {
+  try {
+    const { apiUrl, headers } = getConfig();
+
+    // Création de l'objet FormData pour envoyer le fichier
+    const formData = new FormData();
+    formData.append("image", file);
+
+    // Envoi de la requête POST pour uploader la photo
+    await $fetch<void>(`${apiUrl}/auth/internal-users/uplaodImageprofile/${userId}`, {
+      method: "POST",
+      headers: {
+        Authorization: headers.Authorization, // Inclut uniquement le header d'autorisation
+      },
+      body: formData,
+    });
+  } catch (err: any) {
+    console.error(`Erreur lors de l'upload de la photo pour l'utilisateur avec l'ID ${userId}:`, err);
+    throw new Error(err?.data?.message || "Erreur inconnue");
+  }
+};
+

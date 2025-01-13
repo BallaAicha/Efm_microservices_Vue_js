@@ -2,12 +2,12 @@
   <v-card flat class="bg-transparent">
     <div class="profil d-flex flex-column ga-4 align-end justify-center">
       <!-- TODO: changer la condition pour afficher la photo -->
-      <div v-if="props.changePhoto" class="profile__input">
+      <div v-if="!props.changePhoto" class="profile__input">
         <!-- <img :src="photoStore.getRandomPhoto()" /> -->
-        <FormProfilePicture class="upload__photo" />
+        <FormProfilePicture class="upload__photo" :user-id="props.user.id" />
       </div>
       <div v-else class="profile__initial">
-        <img :src="photoStore.getRandomPhoto()" />
+        <img :src="user.photoUrl" />
         <div class="initial__text">
           {{
             getNameInitials(props.user.firstName + " " + props.user.lastName)
@@ -18,6 +18,7 @@
         <p class="text-h4 font-weight-medium">
           {{ props.user.firstName + " " + props.user.lastName }}
         </p>
+        <p class="text-caption text-grey">{{ props.user.id }}</p>
         <p class="text-h5 text-grey">{{ props.user.email }}</p>
         <p class="text-h5">{{ props.user.phoneNumber }}</p>
         <v-rating
@@ -29,7 +30,6 @@
           active-color="secondary"
         />
         <p class="text-h5">{{ props.user.numberOfReviews }}</p>
-        <p class="text-h5">{{ props.user.id }}</p>
       </div>
     </div>
   </v-card>

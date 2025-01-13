@@ -1,5 +1,10 @@
 <template>
-  <label for="file" class="custum-file-upload">
+  <label
+    for="file"
+    class="custum-file-upload"
+    role="button"
+    aria-label="Télécharger une image"
+  >
     <!-- Si une image est sélectionnée, l'afficher -->
     <div v-if="preview" class="preview-image">
       <img :src="preview" alt="Prévisualisation de l'image" />
@@ -25,24 +30,49 @@
     </div>
     <input id="file" type="file" @change="handleFileUpload" />
   </label>
+  <button @click="submitPhoto">Uploader la photo</button>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { uploadUserPhoto } from "~/api/userApi";
+
+const props = defineProps<{
+  userId: string;
+}>();
 
 const preview = ref<string | null>(null);
+const file = ref<File | null>(null); // Ajout de la variable `file`
 
 const handleFileUpload = (event: Event) => {
-  const file = (event.target as HTMLInputElement)?.files?.[0];
-  if (file) {
+  const selectedFile = (event.target as HTMLInputElement)?.files?.[0];
+  if (selectedFile && selectedFile.type.startsWith("image/")) {
+    file.value = selectedFile; // Enregistrer le fichier sélectionné
     const reader = new FileReader();
     reader.onload = (e) => {
-      preview.value = e.target?.result as string;
+      preview.value = e.target?.result as string; // Mettre à jour l'aperçu
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(selectedFile);
+  } else {
+    alert("Veuillez sélectionner un fichier image valide.");
+  }
+};
+
+const submitPhoto = async () => {
+  if (file.value) {
+    try {
+      await uploadUserPhoto(props.userId, file.value); // Utilisation du fichier
+      alert("Photo uploadée avec succès !");
+    } catch (err) {
+      console.error("Erreur lors de l'upload de la photo :", err);
+      alert("Une erreur s'est produite lors de l'upload.");
+    }
+  } else {
+    alert("Veuillez sélectionner un fichier avant de soumettre.");
   }
 };
 </script>
+
 
 <style lang="scss" scoped>
 .custum-file-upload {
@@ -71,6 +101,10 @@ const handleFileUpload = (event: Event) => {
 .custum-file-upload .icon svg {
   height: 50px;
   fill: $primary;
+}
+
+.custum-file-upload:hover {
+  border-color: darken($primary, 10%);
 }
 
 .custum-file-upload .preview-image img {

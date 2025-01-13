@@ -24,7 +24,7 @@ export interface UserWithAddressInterface {
   rating: number; // Float
   status: string;
   images: [];
-  imagePath: string | null;
+  photoUrl: string | "";
   numberOfReviews: number;
   profilePicture: string | null;
   address: {

@@ -19,14 +19,14 @@
             {{ listing.title }}
           </p>
           <v-divider class="my-3" />
-          <p class="text-h6 py-1">{{ product.category }}</p>
+          <!-- <p class="text-h6 py-1">{{ listing.category[0].name }}</p> -->
           <p class="text-body-2">{{ listing.description }}</p>
           <p class="text-h4 font-weight-bold text-error mt-3">
             {{ listing.price }} $
           </p>
           <div class="d-flex ga-3 mt-4">
             <v-btn
-              @click="contact = !contact"
+              @click="messageStore.open(listing)"
               prepend-icon="mdi-heart"
               text="Favoris"
               flat
@@ -35,10 +35,10 @@
               rounded
             ></v-btn>
             <v-btn
+              @click="messageStore.open(listing)"
               prepend-icon="mdi-email"
               text="Contacter l'annonceur"
               color="secondary"
-              disabled
               flat
               class="text-none"
               rounded
@@ -51,15 +51,13 @@
 </template>
 
 <script lang="ts" setup>
-import { getListing } from '~/api/listingApi';
-import type { ListingInterface } from '~/interfaces/listing/listing.interface';
+import { getListing } from "~/api/listingApi";
+import type { ListingInterface } from "~/interfaces/listing/listing.interface";
 
 const photoStore = usePhotoStore();
 const messageStore = useMessageStore();
 
 const contact = ref(false);
-
-const { data: product } = await useFetch<any>("https://fakestoreapi.com/products/1");
 
 const listing = ref<ListingInterface>(emptyListing());
 
@@ -76,7 +74,6 @@ const fetchListingData = async () => {
 onMounted(async () => {
   fetchListingData();
 });
-
 </script>
 
 <style lang="scss" scoped>

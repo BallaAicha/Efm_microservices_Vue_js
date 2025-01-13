@@ -17,13 +17,32 @@ import type { UserWithAddressInterface } from "~/interfaces/user/user.interface"
 import { getUser } from "~/api/userApi";
 import { emptyUserWithAddress } from "~/utils/userUtils";
 
-const user = ref<UserWithAddressInterface>(emptyUserWithAddress())
-const hasPhoto = ref(false)
+const user = ref<UserWithAddressInterface>(emptyUserWithAddress());
+const hasPhoto = ref(false);
+
+const getImageUrl = (image: any) => {
+  if (!image || image.length === 0) {
+    return ""; // Retourner null si l'array est vide ou undefined
+  }
+  const lastIndex = image.length - 1; // Index du dernier élément
+  return `data:${image[lastIndex].type};base64,${image[lastIndex].image}`;
+};
+
 
 const fetchUserData = async () => {
   try {
     const data = await getUser();
     user.value = data;
+
+    // Vérifiez si des images existent avant d'appeler getImageUrl
+    console.log(user.value);
+    if (user.value.images) {
+      user.value.photoUrl = getImageUrl(user.value.images);
+      hasPhoto.value = true;
+    } else {
+      user.value.photoUrl = ""; // Aucune image disponible
+      hasPhoto.value = false;
+    }
   } catch (error) {
     console.error("Erreur lors de la récupération des données :", error);
   }
